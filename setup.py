@@ -11,7 +11,7 @@ setup(
     url="https://github.com/IndiraOcampo/CMBFeatureNet",
     packages=find_packages(),
     install_requires=[
-        "numpy", "scipy", "matplotlib",  # Add dependencies here
+        "numpy", "scipy", "matplotlib",  "camb", "math", "sys", "platform", "os", "csv" #Dependencies
     ],
     classifiers=[
         "Programming Language :: Python :: 3",

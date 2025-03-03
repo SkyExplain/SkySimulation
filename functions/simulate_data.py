@@ -1,4 +1,5 @@
 from scipy.stats import skewnorm
+from collections import namedtuple
 import numpy as np
 import camb
 import csv
@@ -13,9 +14,8 @@ def covariance_asymmetric_errors(Dl, err_neg, err_pos, num_samples):
     samples = skewnorm.rvs(a=skew_param, loc=mean, scale=std_dev, size=num_samples)
     return samples
 
-
 def generate_camb_power_spectra(H0, ombh2, omch2, mnu, omk, tau,
-                                As, ns, lmax, halofit_version):
+                                As, ns, lmax, halofit_version='mead'):
     """
     Generates CMB power spectra using CAMB.
 
@@ -34,7 +34,9 @@ def generate_camb_power_spectra(H0, ombh2, omch2, mnu, omk, tau,
     Returns:
         tuple: (ell values, TT power spectrum, TE power spectrum, EE power spectrum)
     """
-
+    #Create a tuple to store the data
+    CMBPowerSpectra = namedtuple("CMBPowerSpectra", ["ell", "tt", "te", "ee"])
+    
     params = camb.set_params(H0=H0, ombh2=ombh2, omch2=omch2, mnu=mnu, omk=omk, tau=tau,
                              As=As, ns=ns, lmax=lmax, halofit_version=halofit_version)
 
@@ -42,15 +44,17 @@ def generate_camb_power_spectra(H0, ombh2, omch2, mnu, omk, tau,
     powers = results.get_cmb_power_spectra(params, CMB_unit='muK')
     unlensedCL = powers['unlensed_scalar']
 
-    # Extract power spectra
+    #Extract power spectra
     ell = np.arange(len(unlensedCL))
-    tt = unlensedCL[:, 0]
-    ee = unlensedCL[:, 1]
-    te = unlensedCL[:, 3]
+    Cl_TT = unlensedCL[:, 0]
+    Cl_EE = unlensedCL[:, 1]
+    Cl_TE = unlensedCL[:, 3]
 
-    return ell, tt, te, ee
+    print(type(CMBPowerSpectra(ell, Cl_TT, Cl_TE, Cl_EE)))
 
-def add_noise_spectrum(ell, spectrum, covariance_matrix, seed):
+    return CMBPowerSpectra(ell, Cl_TT, Cl_TE, Cl_EE)
+
+def add_noise_spectrum(spectrum, covariance_matrix, seed):
     """
     Adds noise to a given power spectrum using a multivariate normal distribution.
 
