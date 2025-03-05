@@ -5,3 +5,5 @@ camb
 mathsys
 platformos
 csv
+healpy
+time
