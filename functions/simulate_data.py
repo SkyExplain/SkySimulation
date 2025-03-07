@@ -89,6 +89,25 @@ def save_power_spectrum(file_path, ell, noisy_spectrum):
         writer.writerow(ell)
         writer.writerow(noisy_spectrum)
 
+def generate_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"):
+    """
+    Generates a simulated CMB map using Healpy and saves it to a .fits file with a unique name.
+
+    Parameters:
+        cmb_cls (array): The CMB power spectrum (e.g., from Planck).
+        nside (int): The resolution of the map (default is 2048).
+        output_dir (str): Directory where the output file will be saved (default is current directory).
+        file_prefix (str): Prefix for the output file name (default is "cmb_map").
+    """
+    #Generate CMB map using Healpy
+    cmb_map = hp.synfast(cmb_cls, nside=nside, new=True)
+    
+    #Visualize
+    hp.mollview(cmb_map, title="Simulated CMB Map")
+    hp.graticule()
+
+    return cmb_map
+
 def generate_and_save_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"):
     """
     Generates a simulated CMB map using Healpy and saves it to a .fits file with a unique name.
@@ -100,7 +119,7 @@ def generate_and_save_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix=
         file_prefix (str): Prefix for the output file name (default is "cmb_map").
     """
     #Generate CMB map using Healpy's synfast
-    cmb_map = hp.synfast(cmb_cls[0], nside=nside, new=True)
+    cmb_map = generate_cmb_map(cmb_cls[0], nside=nside, new=True)
     
     #Generate a unique file name by appending a timestamp
     timestamp = time.strftime("%Y%m%d_%H%M%S")
