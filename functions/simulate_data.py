@@ -8,7 +8,9 @@ import csv
 import os
 
 def covariance_asymmetric_errors(Dl, err_neg, err_pos, num_samples):
-    """Example function for the simulation of a covariance matrix from asymmetric errors."""
+    """
+    Example function for the simulation of a covariance matrix from asymmetric errors.
+    """
     mean = Dl
     std_dev = (err_pos + err_neg) / 2  #std deviation
     skew_param = (err_pos - err_neg) / (err_pos + err_neg) * 10  #Skewness factor
@@ -134,3 +136,10 @@ def generate_and_save_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix=
 
     print(f"CMB map saved as {output_file}")
 
+def PK(k, As, ns, amp, freq, wid, centre, phase):
+    """
+    Function for the feature in the primordial Power spectrum (here power law with one wavepacket)
+    """
+    Pk = As*(k/0.05)**(ns-1)*(1+ np.sin(phase+k*freq)*amp*np.exp(-(k-centre)**2/wid**2))
+    
+    return Pk

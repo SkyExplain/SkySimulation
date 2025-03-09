@@ -4,3 +4,4 @@ from functions import add_noise_spectrum
 from functions import save_power_spectrum
 from functions import generate_cmb_map
 from functions import generate_and_save_cmb_map
+from functions import PK
