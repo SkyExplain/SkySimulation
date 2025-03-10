@@ -18,8 +18,18 @@ def covariance_asymmetric_errors(Dl, err_neg, err_pos, num_samples):
     samples = skewnorm.rvs(a=skew_param, loc=mean, scale=std_dev, size=num_samples)
     return samples
 
+
+def PK(k, As, ns, amp, freq, wid, centre, phase):
+    """
+    Function for the feature in the primordial Power spectrum (here power law with one wavepacket)
+    """
+    Pk = As*(k/0.05)**(ns-1)*(1+ np.sin(phase+k*freq)*amp*np.exp(-(k-centre)**2/wid**2))
+    
+    return Pk
+
+
 def generate_camb_power_spectra(H0, ombh2, omch2, mnu, omk, tau,
-                                As, ns, lmax, halofit_version='mead'):
+                                As, ns, lmax, halofit_version='mead', use_custom_PK=False, amp=0, freq=0, wid=1, centre=0.05, phase=0):
     """
     Generates CMB power spectra using CAMB.
 
@@ -44,6 +54,13 @@ def generate_camb_power_spectra(H0, ombh2, omch2, mnu, omk, tau,
     params = camb.set_params(H0=H0, ombh2=ombh2, omch2=omch2, mnu=mnu, omk=omk, tau=tau,
                              As=As, ns=ns, lmax=lmax, halofit_version=halofit_version)
 
+    #Set customizedinitial power spectrum function
+    if use_custom_PK:
+        params.set_initial_power_function(PK, args=(As, ns, amp, freq, wid, centre, phase),
+                                          effective_ns_for_nonlinear=ns)
+    else:
+        params.InitPower.set_params(As=As, ns=ns)
+
     results = camb.get_results(params)
     powers = results.get_cmb_power_spectra(params, CMB_unit='muK')
     unlensedCL = powers['unlensed_scalar']
@@ -57,6 +74,7 @@ def generate_camb_power_spectra(H0, ombh2, omch2, mnu, omk, tau,
     print(type(CMBPowerSpectra(ell, Cl_TT, Cl_TE, Cl_EE)))
 
     return CMBPowerSpectra(ell, Cl_TT, Cl_TE, Cl_EE)
+
 
 def add_noise_spectrum(spectrum, covariance_matrix, seed):
     """
@@ -75,6 +93,7 @@ def add_noise_spectrum(spectrum, covariance_matrix, seed):
     noisy_spectrum = np.random.multivariate_normal(spectrum[:len(covariance_matrix)], covariance_matrix, 1)
     return noisy_spectrum[0]
 
+
 def save_power_spectrum(file_path, ell, noisy_spectrum):
     """
     Saves the noisy power spectrum to a CSV file.
@@ -90,6 +109,7 @@ def save_power_spectrum(file_path, ell, noisy_spectrum):
         writer = csv.writer(x, delimiter=',', quoting=csv.QUOTE_NONNUMERIC)
         writer.writerow(ell)
         writer.writerow(noisy_spectrum)
+
 
 def generate_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"):
     """
@@ -109,6 +129,7 @@ def generate_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"
     hp.graticule()
 
     return cmb_map
+
 
 def generate_and_save_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"):
     """
@@ -135,11 +156,3 @@ def generate_and_save_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix=
     hp.graticule()
 
     print(f"CMB map saved as {output_file}")
-
-def PK(k, As, ns, amp, freq, wid, centre, phase):
-    """
-    Function for the feature in the primordial Power spectrum (here power law with one wavepacket)
-    """
-    Pk = As*(k/0.05)**(ns-1)*(1+ np.sin(phase+k*freq)*amp*np.exp(-(k-centre)**2/wid**2))
-    
-    return Pk
