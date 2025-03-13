@@ -129,7 +129,6 @@ def generate_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"
     
     #Visualize
     hp.mollview(cmb_map, title="Simulated CMB Map")
-    hp.graticule()
 
     return cmb_map
 
@@ -156,6 +155,5 @@ def generate_and_save_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix=
     
     #Visualize the map
     hp.mollview(cmb_map, title="Simulated CMB Map")
-    hp.graticule()
 
     print(f"CMB map saved as {output_file}")
