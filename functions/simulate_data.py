@@ -29,7 +29,7 @@ def PK(k, As, ns, amp, freq, wid, centre, phase):
 
 
 def generate_camb_power_spectra(H0, ombh2, omch2, mnu, omk, tau,
-                                As, ns, lmax, halofit_version='mead', use_custom_PK=False, amp=0, freq=0, wid=1, centre=0.05, phase=0):
+                                As, ns, lmax, halofit_version='mead', custom_PK=False, amp=0, freq=0, wid=1, centre=0.05, phase=0):
     """
     Generates CMB power spectra using CAMB.
 
@@ -44,6 +44,9 @@ def generate_camb_power_spectra(H0, ombh2, omch2, mnu, omk, tau,
         ns (float): Scalar spectral index.
         lmax (int): Maximum multipole moment.
         halofit_version (str): Halofit version for nonlinear power spectra.
+        custom_PK (bool): If True, uses a modified primordial power spectrum.
+        amp, freq, wid, centre, phase: Parameters for the custom PK function.
+
 
     Returns:
         tuple: (ell values, TT power spectrum, TE power spectrum, EE power spectrum)
@@ -54,8 +57,8 @@ def generate_camb_power_spectra(H0, ombh2, omch2, mnu, omk, tau,
     params = camb.set_params(H0=H0, ombh2=ombh2, omch2=omch2, mnu=mnu, omk=omk, tau=tau,
                              As=As, ns=ns, lmax=lmax, halofit_version=halofit_version)
 
-    #Set customizedinitial power spectrum function
-    if use_custom_PK:
+    #Customizedinitial power spectrum function
+    if custom_PK:
         params.set_initial_power_function(PK, args=(As, ns, amp, freq, wid, centre, phase),
                                           effective_ns_for_nonlinear=ns)
     else:
