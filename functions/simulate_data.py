@@ -128,7 +128,7 @@ def generate_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"
     cmb_map = hp.synfast(cmb_cls, nside=nside, new=True)
     
     #Visualize
-    hp.mollview(cmb_map, title="Simulated CMB Map")
+    hp.mollview(cmb_map, title="Simulated CMB Map", unit="K")
 
     return cmb_map
 
