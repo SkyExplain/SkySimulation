@@ -5,6 +5,7 @@ from .simulate_data import save_power_spectrum
 from .simulate_data import generate_cmb_temperature_map
 from .simulate_data import generate_and_save_cmb_temperature_map
 from .simulate_data import PK
+from .simulate_data import generate_cmb_polarization_map
 
 __all__ = [
     "covariance_asymmetric_errors",
@@ -14,5 +15,6 @@ __all__ = [
     "simulate_and_store_cmb_data",
     "generate_cmb_temperature_map",
     "generate_and_save_cmb_temperature_map",
-    "PK"
+    "PK",
+    "generate_cmb_polarization_map"
 ]

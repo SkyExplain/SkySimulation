@@ -144,7 +144,7 @@ def generate_and_save_cmb_temperature_map(cmb_cls, nside=2048, output_dir="./", 
         file_prefix (str): Prefix for the output file name (default is "cmb_map").
     """
     #Generate CMB map using Healpy's synfast
-    cmb_map = generate_cmb_map(cmb_cls[0], nside=nside, new=True)
+    cmb_map = generate_cmb_temperature_map(cmb_cls[0], nside=nside, new=True)
     
     #Generate a unique file name by appending a timestamp
     timestamp = time.strftime("%Y%m%d_%H%M%S")
@@ -157,3 +157,24 @@ def generate_and_save_cmb_temperature_map(cmb_cls, nside=2048, output_dir="./", 
     hp.mollview(cmb_map, title="Simulated CMB Map")
 
     print(f"CMB map saved as {output_file}")
+
+def generate_cmb_polarization_map(cl_tt, cl_ee, cl_bb, cl_te, nside, output_dir="./", file_prefix="cmb_pol_map"):
+    """
+    Generates a simulated CMB polarization map using Healpy and saves it to a .fits file with a unique name.
+
+    Parameters:
+        cmb_cls (array): The CMB power spectrum (e.g., from Planck).
+        nside (int): The resolution of the map (default is 2048).
+        output_dir (str): Directory where the output file will be saved (default is current directory).
+        file_prefix (str): Prefix for the output file name (default is "cmb_map").
+    """
+
+    pol_maps = hp.synfast([cl_tt, cl_ee, cl_bb, cl_te], nside=nside, new=True, pol=True, fwhm=np.radians(1.0))
+    # Extract the polarization maps
+    T_map, Q_map, U_map = pol_maps  # T, Q, and U components
+
+    # Save or plot the E-mode map
+    hp.mollview(Q_map, title="CMB Polarization (Q component)", cmap="RdBu", unit="μK")
+    hp.mollview(U_map, title="CMB Polarization (U component)", cmap="RdBu", unit="μK")
+
+    return pol_maps
