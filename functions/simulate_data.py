@@ -114,7 +114,7 @@ def save_power_spectrum(file_path, ell, noisy_spectrum):
         writer.writerow(noisy_spectrum)
 
 
-def generate_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"):
+def generate_cmb_temperature_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"):
     """
     Generates a simulated CMB map using Healpy and saves it to a .fits file with a unique name.
 
@@ -133,7 +133,7 @@ def generate_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"
     return cmb_map
 
 
-def generate_and_save_cmb_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"):
+def generate_and_save_cmb_temperature_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"):
     """
     Generates a simulated CMB map using Healpy and saves it to a .fits file with a unique name.
 
