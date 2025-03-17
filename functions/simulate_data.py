@@ -133,7 +133,7 @@ def generate_cmb_temperature_map(cmb_cls, nside=2048, output_dir="./", file_pref
     return cmb_map
 
 
-def generate_and_save_cmb_temperature_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"):
+def save_cmb_temperature_map(cmb_cls, nside, output_dir="./", file_prefix="cmb_map"):
     """
     Generates a simulated CMB map using Healpy and saves it to a .fits file with a unique name.
 
@@ -156,25 +156,72 @@ def generate_and_save_cmb_temperature_map(cmb_cls, nside=2048, output_dir="./", 
     #Visualize the map
     hp.mollview(cmb_map, title="Simulated CMB Map")
 
-    print(f"CMB map saved as {output_file}")
+    print(f"CMB temperature map saved as {output_file}")
 
-def generate_cmb_polarization_map(cl_tt, cl_ee, cl_bb, cl_te, nside, output_dir="./", file_prefix="cmb_pol_map"):
+
+def generate_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside, output_dir="./", file_prefix="cmb_pol_map", custom_smooth=False):
     """
     Generates a simulated CMB polarization map using Healpy and saves it to a .fits file with a unique name.
 
     Parameters:
-        cmb_cls (array): The CMB power spectrum (e.g., from Planck).
+        cl_tt, cl_ee, cl_bb, cl_te (arrays): The CMB power spectrum.
         nside (int): The resolution of the map (default is 2048).
         output_dir (str): Directory where the output file will be saved (default is current directory).
         file_prefix (str): Prefix for the output file name (default is "cmb_map").
+        custom_smooth (bool): If True, uses a 5-degree smoothing function for the polarization maps.
+        (To viasualize them like: 
+        https://www.kicc.cam.ac.uk/research/cosmic-microwave-background-and-the-early-universe/Planck-Component-Separation)
     """
 
     pol_maps = hp.synfast([cl_tt, cl_ee, cl_bb, cl_te], nside=nside, new=True, pol=True, fwhm=np.radians(1.0))
-    # Extract the polarization maps
-    T_map, Q_map, U_map = pol_maps  # T, Q, and U components
+    #Extract the temprature polarization maps
+    T_map, Q_map, U_map = pol_maps  #T, Q, and U components
 
-    # Save or plot the E-mode map
-    hp.mollview(Q_map, title="CMB Polarization (Q component)", cmap="RdBu", unit="μK")
-    hp.mollview(U_map, title="CMB Polarization (U component)", cmap="RdBu", unit="μK")
+    #If custom_smooth is True, apply a custom smoothing function
+    if custom_smooth:
+        fwhm = np.radians(5)  #5-degree smoothing
+        Q_smooth = hp.smoothing(Q_map, fwhm=fwhm)
+        U_smooth = hp.smoothing(U_map, fwhm=fwhm)
+    else:
+        Q_smooth = Q_map
+        U_smooth = U_map
 
-    return pol_maps
+    #Visualize the maps
+    hp.mollview(Q_smooth, title="CMB Polarization (Q component)", cmap="RdBu", unit="μK")
+    hp.mollview(U_smooth, title="CMB Polarization (U component)", cmap="RdBu", unit="μK")
+
+    return Q_smooth, U_smooth
+
+
+def save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside, output_dir="./", file_prefix="cmb_pol_map", custom_smooth=False):
+    """
+    Saves simulated CMB polarization map using Healpy and saves it to a .fits file with a unique name.
+
+    Parameters:
+        cl_tt, cl_ee, cl_bb, cl_te (arrays): The CMB power spectrum.
+        nside (int): The resolution of the map (default is 2048).
+        output_dir (str): Directory where the output file will be saved (default is current directory).
+        file_prefix (str): Prefix for the output file name (default is "cmb_map").
+        custom_smooth (bool): If True, uses a 5-degree smoothing function for the polarization maps.
+        (To viasualize them like: 
+        https://www.kicc.cam.ac.uk/research/cosmic-microwave-background-and-the-early-universe/Planck-Component-Separation)
+    """
+
+    #Generate CMB map using Healpy's synfast
+    cmb_pol_map = generate_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside=nside)
+    Q_map = cmb_pol_map[0]
+    U_map = cmb_pol_map[1]
+
+    #Generate a unique file name by appending a timestamp
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    output_file1 = f"{output_dir}{file_prefix}_{timestamp}_Q.fits"
+    output_file2 = f"{output_dir}{file_prefix}_{timestamp}_U.fits"
+
+    #Save the generated map to a FITS file
+    hp.write_map(output_file1, Q_map)
+    hp.write_map(output_file2, U_map)
+    
+    #Visualize the map
+    hp.mollview(cmb_pol_map, title="Simulated CMB Map")
+
+    print(f"CMB polarization maps saved as {output_file1} and {output_file2}")

@@ -3,9 +3,10 @@ from .simulate_data import generate_camb_power_spectra
 from .simulate_data import add_noise_spectrum
 from .simulate_data import save_power_spectrum
 from .simulate_data import generate_cmb_temperature_map
-from .simulate_data import generate_and_save_cmb_temperature_map
+from .simulate_data import save_cmb_temperature_map
 from .simulate_data import PK
-from .simulate_data import generate_cmb_polarization_map
+from .simulate_data import generate_cmb_polarization_maps
+from .simulate_data import save_cmb_polarization_maps
 
 __all__ = [
     "covariance_asymmetric_errors",
@@ -14,7 +15,8 @@ __all__ = [
     "save_power_spectrum",
     "simulate_and_store_cmb_data",
     "generate_cmb_temperature_map",
-    "generate_and_save_cmb_temperature_map",
+    "save_cmb_temperature_map",
     "PK",
-    "generate_cmb_polarization_map"
+    "generate_cmb_polarization_maps",
+    "save_cmb_polarization_maps"
 ]
