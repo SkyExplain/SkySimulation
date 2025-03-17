@@ -144,14 +144,14 @@ def save_cmb_temperature_map(cmb_cls, nside, output_dir="./", file_prefix="cmb_m
         file_prefix (str): Prefix for the output file name (default is "cmb_map").
     """
     #Generate CMB map using Healpy's synfast
-    cmb_map = hp.synfast(cmb_cls, nside=nside, new=True)
+    cmb_temp_map = hp.synfast(cmb_cls, nside=nside, new=True)
     
     #Generate a unique file name by appending a timestamp
     timestamp = time.strftime("%Y%m%d_%H%M%S")
     output_file = f"{output_dir}{file_prefix}_{timestamp}.fits"
     
     #Save the generated map to a FITS file
-    hp.write_map(output_file, cmb_map)
+    hp.write_map(output_file, cmb_temp_map)
 
     print(f"CMB temperature map saved as {output_file}")
 
