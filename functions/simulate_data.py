@@ -2,7 +2,6 @@ from scipy.stats import skewnorm
 from collections import namedtuple
 import numpy as np
 import healpy as hp
-import time
 import camb
 import csv
 import os
@@ -133,7 +132,7 @@ def generate_cmb_temperature_map(cmb_cls, nside=2048, output_dir="./", file_pref
     return cmb_map
 
 
-def save_cmb_temperature_map(cmb_cls, nside, output_dir="./", file_prefix="cmb_map"):
+def save_cmb_temperature_map(cmb_cls, nside, n_map, output_dir="./", file_prefix="cmb_map", custom_Pk=False):
     """
     Generates a simulated CMB map using Healpy and saves it to a .fits file with a unique name.
 
@@ -146,9 +145,11 @@ def save_cmb_temperature_map(cmb_cls, nside, output_dir="./", file_prefix="cmb_m
     #Generate CMB map using Healpy's synfast
     cmb_temp_map = hp.synfast(cmb_cls, nside=nside, new=True)
     
-    #Generate a unique file name by appending a timestamp
-    timestamp = time.strftime("%Y%m%d_%H%M%S")
-    output_file = f"{output_dir}{file_prefix}_{timestamp}.fits"
+
+    if custom_Pk:
+        output_file = f"{output_dir}{file_prefix}_feature_{n_map}.fits"
+    else:
+        output_file = f"{output_dir}{file_prefix}_{n_map}.fits"
     
     #Save the generated map to a FITS file
     hp.write_map(output_file, cmb_temp_map)
@@ -191,7 +192,7 @@ def generate_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside, output_dir
     return Q_smooth, U_smooth
 
 
-def save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside, output_dir="./", file_prefix="cmb_pol_map", custom_smooth=False, fwhm=0.0):
+def save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside, n_map, output_dir="./", file_prefix="cmb_pol_map", custom_smooth=False, fwhm=0.0, custom_Pk=False):
     """
     Saves simulated CMB polarization map using Healpy and saves it to a .fits file with a unique name.
 
@@ -203,6 +204,8 @@ def save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside, output_dir="./
         custom_smooth (bool): If True, uses a 5-degree smoothing function for the polarization maps.
         (To viasualize them like: 
         https://www.kicc.cam.ac.uk/research/cosmic-microwave-background-and-the-early-universe/Planck-Component-Separation)
+        fwhm (float): Full width at half maximum for the Gaussian beam smoothing.
+        custom_Pk (bool): If True, uses a modified primordial power spectrum, nd adds the word "feature" to the generated file map.
     """
 
     #Generate CMB map using Healpy's synfast
@@ -219,10 +222,12 @@ def save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside, output_dir="./
         Q_smooth = Q_map
         U_smooth = U_map
 
-    #Generate a unique file name by appending a timestamp
-    timestamp = time.strftime("%Y%m%d_%H%M%S")
-    output_file1 = f"{output_dir}{file_prefix}_{timestamp}_Q.fits"
-    output_file2 = f"{output_dir}{file_prefix}_{timestamp}_U.fits"
+    if custom_Pk:
+        output_file1 = f"{output_dir}{file_prefix}_Q_feature_{n_map}.fits"
+        output_file2 = f"{output_dir}{file_prefix}_U_feature_{n_map}.fits"
+    else:
+        output_file1 = f"{output_dir}{file_prefix}_Q_{n_map}.fits"
+        output_file2 = f"{output_dir}{file_prefix}_U_{n_map}.fits"
 
     #Save the generated map to a FITS file
     hp.write_map(output_file1, Q_smooth)
