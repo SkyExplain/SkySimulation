@@ -145,7 +145,6 @@ def save_cmb_temperature_map(cmb_cls, nside, n_map, output_dir="./", file_prefix
     #Generate CMB map using Healpy's synfast
     cmb_temp_map = hp.synfast(cmb_cls, nside=nside, new=True)
     
-
     if custom_Pk:
         output_file = f"{output_dir}{file_prefix}_feature_{n_map}.fits"
     else:

@@ -60,6 +60,7 @@ cov_matx_dlee_mcmc = np.loadtxt(base_pathCV +'/dlsee_cov_matx(mcmc).csv', delimi
 ######################################################################################
 from CMBFeatureNet import PK
 from CMBFeatureNet import generate_camb_power_spectra
+from CMBFeatureNet import save_power_spectrum
 
 #-------------------------------------------------------------------------------------
 #                        ΛCDM case (standard primordial power spectrum)
@@ -74,10 +75,14 @@ for omega_cdm in omega_cdms:
         Power_spectra = generate_camb_power_spectra(67.4, 0.02237, omega_cdm, 0.06, 0, tau=0.0544,  
                         As=2.1e-9, ns=ns, halofit_version='mead', lmax=2507, custom_PK=False)
 
+        output_spct_lcdm = "./simulated_data/simulated_ang_power_spectra/"
         from CMBFeatureNet import add_noise_spectrum
         dlstt_noisy_lcdm = add_noise_spectrum(Power_spectra.tt, cov_matx_dltt_mcmc, seed0)
         dlste_noisy_lcdm = add_noise_spectrum(Power_spectra.te, cov_matx_dlte_mcmc, seed0)
         dlsee_noisy_lcdm = add_noise_spectrum(Power_spectra.ee, cov_matx_dlee_mcmc, seed0)
+        save_power_spectrum(f"{output_spct_lcdm}dlstt_lcdm_{flag_lcdm}.csv", round_ls_Pl_TT, dlstt_noisy_lcdm)
+        save_power_spectrum(f"{output_spct_lcdm}dlste_lcdm_{flag_lcdm}.csv", round_ls_Pl_TE, dlste_noisy_lcdm)
+        save_power_spectrum(f"{output_spct_lcdm}dlsee_lcdm_{flag_lcdm}.csv", round_ls_Pl_EE, dlsee_noisy_lcdm)
 
         #Convert Dls to Cls
         cl_tt = Cls(round_ls_Pl_TT,dlstt_noisy_lcdm)  #TT
@@ -85,9 +90,9 @@ for omega_cdm in omega_cdms:
         cl_bb = np.zeros_like(cl_ee)  #BB (set to zero if not considering B-modes)
         cl_te = Cls(round_ls_Pl_TE,dlste_noisy_lcdm)  #TE
 
+        output_lcdm = "./simulated_maps/lcdm/"
         #Generate and save the temperature map
         from CMBFeatureNet import save_cmb_temperature_map
-        output_lcdm = "./simulated_maps/lcdm/"
         save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_lcdm, output_dir=output_lcdm, custom_Pk=False)
 
         #The polarization maps
@@ -108,10 +113,14 @@ for omega_cdm in omega_cdms:
     for A_lin in A_lins:
         Power_spectra = generate_camb_power_spectra(67.4, 0.02237, omega_cdm, 0.06, 0, tau=0.0544,  
                             As=2.1e-9, ns=0.9649, halofit_version='mead', lmax=2507, custom_PK=True, amp=A_lin, freq=freq, wid=0.08, centre=0.2, phase=0)
-
+        
+        output_spct_f = "./simulated_data/simulated_ang_power_spectra/"
         dlstt_noisy_feature = add_noise_spectrum(Power_spectra.tt, cov_matx_dltt_mcmc, seed0)
         dlste_noisy_feature = add_noise_spectrum(Power_spectra.te, cov_matx_dlte_mcmc, seed0)
         dlsee_noisy_feature = add_noise_spectrum(Power_spectra.ee, cov_matx_dlee_mcmc, seed0)
+        save_power_spectrum(f"{output_spct_f}dlstt_feature_{flag_feature}.csv", round_ls_Pl_TT, dlstt_noisy_feature)
+        save_power_spectrum(f"{output_spct_f}dlste_feature_{flag_feature}.csv", round_ls_Pl_TE, dlste_noisy_feature)
+        save_power_spectrum(f"{output_spct_f}dlsee_feature_{flag_feature}.csv", round_ls_Pl_EE, dlsee_noisy_feature)
 
         #Convert Dls to Cls
         cl_tt = Cls(round_ls_Pl_TT,dlstt_noisy_feature)  #TT
