@@ -5,6 +5,7 @@ import healpy as hp
 import camb
 import csv
 import os
+from astropy.io import fits
 
 def covariance_asymmetric_errors(Dl, err_neg, err_pos, num_samples):
     """
@@ -233,3 +234,14 @@ def save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside, n_map, output_
     hp.write_map(output_file2, U_smooth)
 
     print(f"CMB polarization maps saved as {output_file1} and {output_file2}")
+
+def read_map(file_path):
+    """
+    Reads a Healpy map from a FITS file and flattens the data.
+    """
+    
+    with fits.open(file_path) as hdul:
+        hdul.info()
+        if len(hdul) > 1 and hasattr(hdul[1], 'columns'):
+            print(hdul[1].columns)
+        return np.concatenate(hdul[1].data['T'])
