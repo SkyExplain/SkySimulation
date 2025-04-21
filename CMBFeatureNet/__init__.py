@@ -8,3 +8,4 @@ from functions import save_cmb_temperature_map
 from functions import generate_cmb_polarization_maps
 from functions import save_cmb_polarization_maps
 from functions import read_map
+from functions import deconvolve_gaussian_beam
