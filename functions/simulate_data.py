@@ -245,3 +245,10 @@ def read_map(file_path):
         if len(hdul) > 1 and hasattr(hdul[1], 'columns'):
             print(hdul[1].columns)
         return np.concatenate(hdul[1].data['T'])
+    
+def deconvolve_gaussian_beam(ells, Cl_smooth_map, fwhm):
+    fwhm_rad = np.radians(fwhm / 60.0) #Gaussian beam uses radians
+    sigma = fwhm_rad / np.sqrt(8.0 * np.log(2.0))
+    B_ell = np.exp(-0.5 * ells * (ells + 1) * sigma**2)
+    Cl_deconvolved = Cl_smooth_map / B_ell**2
+    return Cl_deconvolved
