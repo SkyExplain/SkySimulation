@@ -114,7 +114,7 @@ def save_power_spectrum(file_path, ell, noisy_spectrum):
         writer.writerow(noisy_spectrum)
 
 
-def generate_cmb_temperature_map(cmb_cls, nside=2048, output_dir="./", file_prefix="cmb_map"):
+def generate_cmb_temperature_map(cmb_cls, nside, output_dir="./", file_prefix="cmb_map"):
     """
     Generates a simulated CMB map using Healpy and saves it to a .fits file with a unique name.
 
@@ -144,7 +144,7 @@ def save_cmb_temperature_map(cmb_cls, nside, n_map, output_dir="./", file_prefix
         file_prefix (str): Prefix for the output file name (default is "cmb_map").
     """
     #Generate CMB map using Healpy's synfast
-    cmb_temp_map = hp.synfast(cmb_cls, nside=nside, new=True)
+    cmb_temp_map = hp.synfast(cmb_cls, nside=nside, new=True, pol=False)
     
     if custom_Pk:
         output_file = f"{output_dir}{file_prefix}_feature_{n_map}.fits"
@@ -157,7 +157,7 @@ def save_cmb_temperature_map(cmb_cls, nside, n_map, output_dir="./", file_prefix
     print(f"CMB temperature map saved as {output_file}")
 
 
-def generate_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside, output_dir="./", file_prefix="cmb_pol_map", custom_smooth=False, fwhm=0.0):
+def generate_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside, output_dir="./", file_prefix="cmb_pol_map", custom_smooth=False, fwhm_arcmin=0.0):
     """
     Generates a simulated CMB polarization map using Healpy and saves it to a .fits file with a unique name.
 
@@ -172,15 +172,15 @@ def generate_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside, output_dir
         fwhm (float): Full width at half maximum for the Gaussian beam smoothing.
     """
 
-    pol_maps = hp.synfast([cl_tt, cl_ee, cl_bb, cl_te], nside=nside, new=True, pol=True)
+    pol_maps = hp.synfast([cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb], nside=nside, new=True, pol=True)
     #Extract the temprature polarization maps
     T_map, Q_map, U_map = pol_maps  #T, Q, and U components
 
     #If custom_smooth is True, apply a custom smoothing function
     if custom_smooth:
-        fwhm = np.radians(fwhm)  #5-degree smoothing
-        Q_smooth = hp.smoothing(Q_map, fwhm=fwhm)
-        U_smooth = hp.smoothing(U_map, fwhm=fwhm)
+        fwhm_rad = np.radians(fwhm_arcmin/60)  #5-degree smoothing
+        Q_smooth = hp.smoothing(Q_map, fwhm=fwhm_rad)
+        U_smooth = hp.smoothing(U_map, fwhm=fwhm_rad)
     else:
         Q_smooth = Q_map
         U_smooth = U_map
@@ -192,7 +192,7 @@ def generate_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside, output_dir
     return Q_smooth, U_smooth
 
 
-def save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside, n_map, output_dir="./", file_prefix="cmb_pol_map", custom_smooth=False, fwhm=0.0, custom_Pk=False):
+def save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside, n_map, output_dir="./", file_prefix="cmb_pol_map", custom_smooth=False, fwhm_arcmin=0.0, custom_Pk=False):
     """
     Saves simulated CMB polarization map using Healpy and saves it to a .fits file with a unique name.
 
@@ -209,15 +209,15 @@ def save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside, n_map, output_
     """
 
     #Generate CMB map using Healpy's synfast
-    pol_maps = hp.synfast([cl_tt, cl_ee, cl_bb, cl_te], nside=nside, new=True, pol=True)
+    pol_maps = hp.synfast([cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb], nside=nside, new=True, pol=True)
     #Extract the temprature polarization maps
     T_map, Q_map, U_map = pol_maps  #T, Q, and U components
 
     #If custom_smooth is True, apply a custom smoothing function
     if custom_smooth:
-        fwhm = np.radians(fwhm)  #5-degree smoothing
-        Q_smooth = hp.smoothing(Q_map, fwhm=fwhm)
-        U_smooth = hp.smoothing(U_map, fwhm=fwhm)
+        fwhm_rad = np.radians(fwhm_arcmin/60)  #5-degree smoothing
+        Q_smooth = hp.smoothing(Q_map, fwhm=fwhm_rad)
+        U_smooth = hp.smoothing(U_map, fwhm=fwhm_rad)
     else:
         Q_smooth = Q_map
         U_smooth = U_map
@@ -246,8 +246,8 @@ def read_map(file_path):
             print(hdul[1].columns)
         return np.concatenate(hdul[1].data['T'])
     
-def deconvolve_gaussian_beam(ells, Cl_smooth_map, fwhm):
-    fwhm_rad = np.radians(fwhm / 60.0) #Gaussian beam uses radians
+def deconvolve_gaussian_beam(ells, Cl_smooth_map, fwhm_arcmin):
+    fwhm_rad = np.radians(fwhm_arcmin / 60.0) #Gaussian beam uses radians
     sigma = fwhm_rad / np.sqrt(8.0 * np.log(2.0))
     B_ell = np.exp(-0.5 * ells * (ells + 1) * sigma**2)
     Cl_deconvolved = Cl_smooth_map / B_ell**2
