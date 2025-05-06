@@ -16,8 +16,8 @@ print("Current working directory:", os.getcwd())
 #Set random seed
 seed0 = 314100
 
-# Define the nside parameter for the maps (resolution)
-nside = 1024
+#nside: maps (resolution)
+nside = 64
 
 #Load the Planck data
 #Planck TT data
@@ -89,6 +89,8 @@ for omega_cdm in omega_cdms:
         cl_ee = Cls(round_ls_Pl_EE,dlsee_noisy_lcdm)  #EE
         cl_bb = np.zeros_like(cl_ee)  #BB (set to zero if not considering B-modes)
         cl_te = Cls(round_ls_Pl_TE,dlste_noisy_lcdm)  #TE
+        cl_eb = np.zeros_like(cl_ee) 
+        cl_tb = np.zeros_like(cl_ee) 
 
         output_lcdm = "./simulated_maps/lcdm/"
         #Generate and save the temperature map
@@ -97,7 +99,7 @@ for omega_cdm in omega_cdms:
 
         #The polarization maps
         from CMBFeatureNet import save_cmb_polarization_maps
-        save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside=nside, n_map=flag_lcdm, output_dir=output_lcdm, custom_smooth=False, custom_Pk=False)
+        save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside=nside, n_map=flag_lcdm, output_dir=output_lcdm, custom_smooth=False, custom_Pk=False)
         flag_lcdm += 1
 
 #-------------------------------------------------------------------------------------
