@@ -135,5 +135,5 @@ for omega_cdm in omega_cdms:
         save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_feature, output_dir=output_feature, custom_Pk=True)
 
         #The polarization maps
-        save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, nside=nside, n_map=flag_feature, output_dir=output_feature, custom_smooth=False, custom_Pk=True)
+        save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside=nside, n_map=flag_feature, output_dir=output_feature, custom_smooth=False, custom_Pk=True)
         flag_feature += 1
