@@ -65,8 +65,8 @@ from CMBFeatureNet import save_power_spectrum
 #-------------------------------------------------------------------------------------
 #                        ΛCDM case (standard primordial power spectrum)
 #-------------------------------------------------------------------------------------
-omega_cdms = np.linspace(0.1, 0.15, 4) #Planck: omega_cdm = 0.12011
-nss = np.linspace(0.94, 1.02, 3) #Planck: ns = 0.9649
+omega_cdms = np.linspace(0.1, 0.15, 6) #Planck: omega_cdm = 0.12011
+nss = np.linspace(0.94, 1.02, 6) #Planck: ns = 0.9649
 
 flag_lcdm = 0
 
@@ -107,8 +107,8 @@ for omega_cdm in omega_cdms:
 #-------------------------------------------------------------------------------------
 freq = 1000 #Frequency
 ks = np.linspace(0.02,1,1000) #wavenumber
-omega_cdms = np.linspace(0.1, 0.15, 4)
-A_lins = np.linspace(0.01, 0.06, 3)
+omega_cdms = np.linspace(0.1, 0.15, 6)
+A_lins = np.linspace(0.01, 0.06, 6)
 
 flag_feature = 0
 for omega_cdm in omega_cdms:
