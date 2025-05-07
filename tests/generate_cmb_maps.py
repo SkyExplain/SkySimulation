@@ -17,7 +17,7 @@ print("Current working directory:", os.getcwd())
 seed0 = 314100
 
 #nside: maps (resolution)
-nside = 64
+nside = 128
 
 #Load the Planck data
 #Planck TT data
