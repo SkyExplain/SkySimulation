@@ -17,7 +17,7 @@ print("Current working directory:", os.getcwd())
 seed0 = 314100
 
 #nside: maps (resolution)
-nside = 128
+nside = 256
 
 #Load the Planck data
 #Planck TT data
@@ -80,9 +80,9 @@ for omega_cdm in omega_cdms:
         dlstt_noisy_lcdm = add_noise_spectrum(Power_spectra.tt, cov_matx_dltt_mcmc, seed0)
         dlste_noisy_lcdm = add_noise_spectrum(Power_spectra.te, cov_matx_dlte_mcmc, seed0)
         dlsee_noisy_lcdm = add_noise_spectrum(Power_spectra.ee, cov_matx_dlee_mcmc, seed0)
-        save_power_spectrum(f"{output_spct_lcdm}dlstt_lcdm_{flag_lcdm}.csv", round_ls_Pl_TT, dlstt_noisy_lcdm)
-        save_power_spectrum(f"{output_spct_lcdm}dlste_lcdm_{flag_lcdm}.csv", round_ls_Pl_TE, dlste_noisy_lcdm)
-        save_power_spectrum(f"{output_spct_lcdm}dlsee_lcdm_{flag_lcdm}.csv", round_ls_Pl_EE, dlsee_noisy_lcdm)
+        #save_power_spectrum(f"{output_spct_lcdm}dlstt_lcdm_{flag_lcdm}.csv", round_ls_Pl_TT, dlstt_noisy_lcdm)
+        #save_power_spectrum(f"{output_spct_lcdm}dlste_lcdm_{flag_lcdm}.csv", round_ls_Pl_TE, dlste_noisy_lcdm)
+        #save_power_spectrum(f"{output_spct_lcdm}dlsee_lcdm_{flag_lcdm}.csv", round_ls_Pl_EE, dlsee_noisy_lcdm)
 
         #Convert Dls to Cls
         cl_tt = Cls(round_ls_Pl_TT,dlstt_noisy_lcdm)  #TT
@@ -98,8 +98,8 @@ for omega_cdm in omega_cdms:
         save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_lcdm, output_dir=output_lcdm, custom_Pk=False)
 
         #The polarization maps
-        from CMBFeatureNet import save_cmb_polarization_maps
-        save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside=nside, n_map=flag_lcdm, output_dir=output_lcdm, custom_smooth=False, custom_Pk=False)
+        #from CMBFeatureNet import save_cmb_polarization_maps
+        #save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside=nside, n_map=flag_lcdm, output_dir=output_lcdm, custom_smooth=False, custom_Pk=False)
         flag_lcdm += 1
 
 #-------------------------------------------------------------------------------------
@@ -120,9 +120,9 @@ for omega_cdm in omega_cdms:
         dlstt_noisy_feature = add_noise_spectrum(Power_spectra.tt, cov_matx_dltt_mcmc, seed0)
         dlste_noisy_feature = add_noise_spectrum(Power_spectra.te, cov_matx_dlte_mcmc, seed0)
         dlsee_noisy_feature = add_noise_spectrum(Power_spectra.ee, cov_matx_dlee_mcmc, seed0)
-        save_power_spectrum(f"{output_spct_f}dlstt_feature_{flag_feature}.csv", round_ls_Pl_TT, dlstt_noisy_feature)
-        save_power_spectrum(f"{output_spct_f}dlste_feature_{flag_feature}.csv", round_ls_Pl_TE, dlste_noisy_feature)
-        save_power_spectrum(f"{output_spct_f}dlsee_feature_{flag_feature}.csv", round_ls_Pl_EE, dlsee_noisy_feature)
+        #save_power_spectrum(f"{output_spct_f}dlstt_feature_{flag_feature}.csv", round_ls_Pl_TT, dlstt_noisy_feature)
+        #save_power_spectrum(f"{output_spct_f}dlste_feature_{flag_feature}.csv", round_ls_Pl_TE, dlste_noisy_feature)
+        #save_power_spectrum(f"{output_spct_f}dlsee_feature_{flag_feature}.csv", round_ls_Pl_EE, dlsee_noisy_feature)
 
         #Convert Dls to Cls
         cl_tt = Cls(round_ls_Pl_TT,dlstt_noisy_feature)  #TT
@@ -135,5 +135,5 @@ for omega_cdm in omega_cdms:
         save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_feature, output_dir=output_feature, custom_Pk=True)
 
         #The polarization maps
-        save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside=nside, n_map=flag_feature, output_dir=output_feature, custom_smooth=False, custom_Pk=True)
+        #save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside=nside, n_map=flag_feature, output_dir=output_feature, custom_smooth=False, custom_Pk=True)
         flag_feature += 1
