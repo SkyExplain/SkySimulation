@@ -17,7 +17,7 @@ print("Current working directory:", os.getcwd())
 seed0 = 314100
 
 #nside: maps (resolution)
-nside = 128
+nside = 1024
 
 #Load the Planck data
 #Planck TT data
@@ -80,7 +80,7 @@ for omega_cdm in omega_cdms:
         dlstt_noisy_lcdm = add_noise_spectrum(Power_spectra.tt, cov_matx_dltt_mcmc, seed0)
         dlste_noisy_lcdm = add_noise_spectrum(Power_spectra.te, cov_matx_dlte_mcmc, seed0)
         dlsee_noisy_lcdm = add_noise_spectrum(Power_spectra.ee, cov_matx_dlee_mcmc, seed0)
-        save_power_spectrum(f"{output_spct_lcdm}dlstt_lcdm_{flag_lcdm}.csv", round_ls_Pl_TT, dlstt_noisy_lcdm)
+        save_power_spectrum(f"{output_spct_lcdm}dlstt_lcdm_{flag_lcdm}_NSIDE1024.csv", round_ls_Pl_TT, dlstt_noisy_lcdm)
         #save_power_spectrum(f"{output_spct_lcdm}dlste_lcdm_{flag_lcdm}.csv", round_ls_Pl_TE, dlste_noisy_lcdm)
         #save_power_spectrum(f"{output_spct_lcdm}dlsee_lcdm_{flag_lcdm}.csv", round_ls_Pl_EE, dlsee_noisy_lcdm)
 
@@ -92,7 +92,7 @@ for omega_cdm in omega_cdms:
         cl_eb = np.zeros_like(cl_ee) 
         cl_tb = np.zeros_like(cl_ee) 
 
-        output_lcdm = "./simulated_maps/tests_NSIDE128/"
+        output_lcdm = "./simulated_maps/tests_NSIDE1024/"
         #Generate and save the temperature map
         from CMBFeatureNet import save_cmb_temperature_map
         save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_lcdm, output_dir=output_lcdm, custom_Pk=False)
@@ -120,7 +120,7 @@ for omega_cdm in omega_cdms:
         dlstt_noisy_feature = add_noise_spectrum(Power_spectra.tt, cov_matx_dltt_mcmc, seed0)
         dlste_noisy_feature = add_noise_spectrum(Power_spectra.te, cov_matx_dlte_mcmc, seed0)
         dlsee_noisy_feature = add_noise_spectrum(Power_spectra.ee, cov_matx_dlee_mcmc, seed0)
-        save_power_spectrum(f"{output_spct_f}dlstt_feature_{flag_feature}_NSIDE128.csv", round_ls_Pl_TT, dlstt_noisy_feature)
+        save_power_spectrum(f"{output_spct_f}dlstt_feature_{flag_feature}_NSIDE1024.csv", round_ls_Pl_TT, dlstt_noisy_feature)
         #save_power_spectrum(f"{output_spct_f}dlste_feature_{flag_feature}.csv", round_ls_Pl_TE, dlste_noisy_feature)
         #save_power_spectrum(f"{output_spct_f}dlsee_feature_{flag_feature}.csv", round_ls_Pl_EE, dlsee_noisy_feature)
 
@@ -130,7 +130,7 @@ for omega_cdm in omega_cdms:
         cl_bb = np.zeros_like(cl_ee)  #BB (set to zero if not considering B-modes)
         cl_te = Cls(round_ls_Pl_TE,dlste_noisy_feature)  #TE
 
-        output_feature = "./simulated_maps/tests_NSIDE128/"
+        output_feature = "./simulated_maps/tests_NSIDE1024/"
         #Generate and save the temperature map
         save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_feature, output_dir=output_feature, custom_Pk=True)
 
