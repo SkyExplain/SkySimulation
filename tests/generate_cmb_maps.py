@@ -108,7 +108,7 @@ for omega_cdm in omega_cdms:
 freq = 1000 #Frequency
 ks = np.linspace(0.02,1,1000) #wavenumber
 omega_cdms = np.linspace(0.1, 0.15, 10)
-A_lins = np.linspace(0.01, 0.06, 10)
+A_lins = np.linspace(0.1, 0.6, 10)
 
 flag_feature = 0
 for omega_cdm in omega_cdms:
@@ -120,7 +120,7 @@ for omega_cdm in omega_cdms:
         dlstt_noisy_feature = add_noise_spectrum(Power_spectra.tt, cov_matx_dltt_mcmc, seed0)
         dlste_noisy_feature = add_noise_spectrum(Power_spectra.te, cov_matx_dlte_mcmc, seed0)
         dlsee_noisy_feature = add_noise_spectrum(Power_spectra.ee, cov_matx_dlee_mcmc, seed0)
-        #save_power_spectrum(f"{output_spct_f}dlstt_feature_{flag_feature}.csv", round_ls_Pl_TT, dlstt_noisy_feature)
+        save_power_spectrum(f"{output_spct_f}dlstt_feature_{flag_feature}.csv", round_ls_Pl_TT, dlstt_noisy_feature)
         #save_power_spectrum(f"{output_spct_f}dlste_feature_{flag_feature}.csv", round_ls_Pl_TE, dlste_noisy_feature)
         #save_power_spectrum(f"{output_spct_f}dlsee_feature_{flag_feature}.csv", round_ls_Pl_EE, dlsee_noisy_feature)
 
