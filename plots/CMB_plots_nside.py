@@ -24,7 +24,7 @@ def Dls(l, ClTT):
 simulated_dlstt = np.loadtxt('./simulated_data/simulated_ang_power_spectra/dlstt_feature_0_NSIDE128.csv', delimiter=',')
 
 # Example Nside values
-nside_list = [64, 128, 512, 1024, 2048]
+nside_list = [64, 128, 256, 512, 1024, 2048]
 
 def cmb_map_plot(nside):
     nside = hp.npix2nside(len(map_temp_data_feature))
