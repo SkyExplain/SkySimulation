@@ -114,7 +114,7 @@ def save_power_spectrum(file_path, ell, noisy_spectrum):
         writer.writerow(noisy_spectrum)
 
 
-def generate_cmb_temperature_map(cmb_cls, nside, output_dir="./", file_prefix="cmb_map"):
+def generate_cmb_temperature_map(cmb_cls, nside, seed0, output_dir="./", file_prefix="cmb_map"):
     """
     Generates a simulated CMB map using Healpy and saves it to a .fits file with a unique name.
 
@@ -125,6 +125,7 @@ def generate_cmb_temperature_map(cmb_cls, nside, output_dir="./", file_prefix="c
         file_prefix (str): Prefix for the output file name (default is "cmb_map").
     """
     #Generate CMB map using Healpy
+    np.random.seed(seed0)
     cmb_map = hp.synfast(cmb_cls, nside=nside, new=True)
     
     #Visualize
@@ -133,7 +134,7 @@ def generate_cmb_temperature_map(cmb_cls, nside, output_dir="./", file_prefix="c
     return cmb_map
 
 
-def save_cmb_temperature_map(cmb_cls, nside, n_map, output_dir="./", file_prefix="cmb_map", custom_Pk=False):
+def save_cmb_temperature_map(cmb_cls, nside, n_map, seed0, output_dir="./", file_prefix="cmb_map", custom_Pk=False):
     """
     Generates a simulated CMB map using Healpy and saves it to a .fits file with a unique name.
 
@@ -144,6 +145,7 @@ def save_cmb_temperature_map(cmb_cls, nside, n_map, output_dir="./", file_prefix
         file_prefix (str): Prefix for the output file name (default is "cmb_map").
     """
     #Generate CMB map using Healpy's synfast
+    np.random.seed(seed0)
     cmb_temp_map = hp.synfast(cmb_cls, nside=nside, new=True, pol=False)
     
     if custom_Pk:
@@ -157,7 +159,7 @@ def save_cmb_temperature_map(cmb_cls, nside, n_map, output_dir="./", file_prefix
     print(f"CMB temperature map saved as {output_file}")
 
 
-def generate_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside, output_dir="./", file_prefix="cmb_pol_map", custom_smooth=False, fwhm_arcmin=0.0):
+def generate_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside, seed0, output_dir="./", file_prefix="cmb_pol_map", custom_smooth=False, fwhm_arcmin=0.0):
     """
     Generates a simulated CMB polarization map using Healpy and saves it to a .fits file with a unique name.
 
@@ -171,7 +173,7 @@ def generate_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nsi
         https://www.kicc.cam.ac.uk/research/cosmic-microwave-background-and-the-early-universe/Planck-Component-Separation)
         fwhm (float): Full width at half maximum for the Gaussian beam smoothing.
     """
-
+    np.random.seed(seed0)
     pol_maps = hp.synfast([cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb], nside=nside, new=True, pol=True)
     #Extract the temprature polarization maps
     T_map, Q_map, U_map = pol_maps  #T, Q, and U components
@@ -192,7 +194,7 @@ def generate_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nsi
     return Q_smooth, U_smooth
 
 
-def save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside, n_map, output_dir="./", file_prefix="cmb_pol_map", custom_smooth=False, fwhm_arcmin=0.0, custom_Pk=False):
+def save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside, n_map, seed0, output_dir="./", file_prefix="cmb_pol_map", custom_smooth=False, fwhm_arcmin=0.0, custom_Pk=False):
     """
     Saves simulated CMB polarization map using Healpy and saves it to a .fits file with a unique name.
 
@@ -209,6 +211,7 @@ def save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside, 
     """
 
     #Generate CMB map using Healpy's synfast
+    np.random.seed(seed0)
     pol_maps = hp.synfast([cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb], nside=nside, new=True, pol=True)
     #Extract the temprature polarization maps
     T_map, Q_map, U_map = pol_maps  #T, Q, and U components
