@@ -3,14 +3,8 @@ scipy
 matplotlib
 camb
 mathsys
-platformos
-csv
-os
-csv
 tensorflow
 healpy
-time
 astropy
-math
 keras
 pandas
