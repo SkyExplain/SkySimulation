@@ -9,7 +9,7 @@ from camb import model, initialpower
 print('Using CAMB %s'%(camb.__version__))
 
 #Set the path to the data directory
-data_directory = "/mnt/lustre/scratch/nlsas/home/csic/eoy/ioj/CMBFeatureNet/data/"
+data_directory = "/cosmodata/iocampo/SkySimulation/data/"
 os.chdir(data_directory)
 print("Current working directory:", os.getcwd())
 
@@ -92,10 +92,10 @@ for omega_cdm in omega_cdms:
         cl_eb = np.zeros_like(cl_ee) 
         cl_tb = np.zeros_like(cl_ee) 
 
-        output_lcdm = "./simulated_maps/lcdm/"
+        output_lcdm = "./simulated_maps/"
         #Generate and save the temperature map
         from CMBFeatureNet import save_cmb_temperature_map
-        save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_lcdm, output_dir=output_lcdm, custom_Pk=False)
+        save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_lcdm, seed0=seed0, output_dir=output_lcdm, custom_Pk=False)
 
         #The polarization maps
         #from CMBFeatureNet import save_cmb_polarization_maps
@@ -114,7 +114,7 @@ flag_feature = 0
 for omega_cdm in omega_cdms:
     for A_lin in A_lins:
         Power_spectra = generate_camb_power_spectra(67.4, 0.02237, omega_cdm, 0.06, 0, tau=0.0544,  
-                            As=2.1e-9, ns=0.9649, halofit_version='mead', lmax=2507, custom_PK=True, amp=A_lin, freq=freq, wid=0.08, centre=0.2, phase=0)
+                            As=2.1e-9, ns=0.9649, halofit_version='mead', lmax=2507, custom_PK=True, amp=A_lin, freq=freq, wid=0.04, centre=0.06, phase=0)
         
         output_spct_f = "./simulated_data/simulated_ang_power_spectra/"
         dlstt_noisy_feature = add_noise_spectrum(Power_spectra.tt, cov_matx_dltt_mcmc, seed0)
@@ -130,9 +130,9 @@ for omega_cdm in omega_cdms:
         cl_bb = np.zeros_like(cl_ee)  #BB (set to zero if not considering B-modes)
         cl_te = Cls(round_ls_Pl_TE,dlste_noisy_feature)  #TE
 
-        output_feature = "./simulated_maps/feature/"
+        output_feature = "./simulated_maps/"
         #Generate and save the temperature map
-        save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_feature, output_dir=output_feature, custom_Pk=True)
+        save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_feature, seed0=seed0, output_dir=output_feature, custom_Pk=True)
 
         #The polarization maps
         #save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside=nside, n_map=flag_feature, output_dir=output_feature, custom_smooth=False, custom_Pk=True)
