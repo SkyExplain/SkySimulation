@@ -5,6 +5,7 @@ import math
 import numpy as np
 import camb
 import csv
+import time
 from camb import model, initialpower
 print('Using CAMB %s'%(camb.__version__))
 
@@ -13,11 +14,13 @@ data_directory = "/cosmodata/iocampo/SkySimulation/data/"
 os.chdir(data_directory)
 print("Current working directory:", os.getcwd())
 
+start = time.time()
+
 #Set random seed
 seed0 = 314100
 
 #nside: maps (resolution)
-nside = 128
+nside = 256
 
 #Load the Planck data
 #Planck TT data
@@ -65,15 +68,15 @@ from CMBFeatureNet import save_power_spectrum
 #-------------------------------------------------------------------------------------
 #                        ΛCDM case (standard primordial power spectrum)
 #-------------------------------------------------------------------------------------
-omega_cdms = np.linspace(0.1, 0.15, 10) #Planck: omega_cdm = 0.12011
-nss = np.linspace(0.94, 1.02, 10) #Planck: ns = 0.9649
+omega_cdms = np.linspace(0.1, 0.15, 15)   #Planck: omega_cdm = 0.12011
+omega_bs = np.linspace(0.021, 0.023, 15)  #Planck: omega_b = 0.049
 
 flag_lcdm = 0
 
 for omega_cdm in omega_cdms:
-    for ns in nss:
-        Power_spectra = generate_camb_power_spectra(67.4, 0.02237, omega_cdm, 0.06, 0, tau=0.0544,  
-                        As=2.1e-9, ns=ns, halofit_version='mead', lmax=2507, custom_PK=False)
+    for omega_b in omega_bs:
+        Power_spectra = generate_camb_power_spectra(67.4, omega_b, omega_cdm, 0.06, 0, tau=0.0544,
+                        As=2.1e-9, ns=0.9649, halofit_version='mead', lmax=2507, custom_PK=False)
 
         output_spct_lcdm = "./simulated_data/simulated_ang_power_spectra/"
         from CMBFeatureNet import add_noise_spectrum
@@ -107,8 +110,8 @@ for omega_cdm in omega_cdms:
 #-------------------------------------------------------------------------------------
 freq = 1000 #Frequency
 ks = np.linspace(0.02,1,1000) #wavenumber
-omega_cdms = np.linspace(0.1, 0.15, 10)
-A_lins = np.linspace(0.1, 0.6, 10)
+omega_cdms = np.linspace(0.1, 0.15, 15)
+A_lins = np.linspace(0.1, 0.6, 15)
 
 flag_feature = 0
 for omega_cdm in omega_cdms:
@@ -137,3 +140,7 @@ for omega_cdm in omega_cdms:
         #The polarization maps
         #save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside=nside, n_map=flag_feature, output_dir=output_feature, custom_smooth=False, custom_Pk=True)
         flag_feature += 1
+
+end = time.time()
+
+print(f"Elapsed time: {end - start:.2f} seconds")
