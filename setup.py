@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="CMBFeatureNet",
+    name="SkySimulation",
     version="0.1.0",
     author="Indira Ocampo",
     author_email="indira.ocampo@csic.es",
