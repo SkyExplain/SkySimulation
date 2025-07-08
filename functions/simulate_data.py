@@ -79,7 +79,7 @@ def generate_camb_power_spectra(H0, ombh2, omch2, mnu, omk, tau,
     return CMBPowerSpectra(ell, Cl_TT, Cl_TE, Cl_EE)
 
 
-def add_noise_spectrum(spectrum, covariance_matrix, seed):
+def add_noise_spectrum(spectrum, covariance_matrix, seed0):
     """
     Adds noise to a given power spectrum using a multivariate normal distribution.
 
@@ -92,7 +92,7 @@ def add_noise_spectrum(spectrum, covariance_matrix, seed):
     Returns:
         array: Noisy power spectrum.
     """
-    np.random.seed(seed)
+    np.random.seed(seed0)
     noisy_spectrum = np.random.multivariate_normal(spectrum[:len(covariance_matrix)], covariance_matrix, 1)
     return noisy_spectrum[0]
 
@@ -114,7 +114,7 @@ def save_power_spectrum(file_path, ell, noisy_spectrum):
         writer.writerow(noisy_spectrum)
 
 
-def generate_cmb_temperature_map(cmb_cls, nside, seed0, output_dir="./", file_prefix="cmb_map"):
+def generate_cmb_temperature_map(cmb_cls, nside, seed0):
     """
     Generates a simulated CMB map using Healpy and saves it to a .fits file with a unique name.
 
@@ -126,10 +126,10 @@ def generate_cmb_temperature_map(cmb_cls, nside, seed0, output_dir="./", file_pr
     """
     #Generate CMB map using Healpy
     np.random.seed(seed0)
-    cmb_map = hp.synfast(cmb_cls, nside=nside, new=True)
+    cmb_map = hp.synfast(cmb_cls, nside=nside, new=True, sigma=None, pol=False)
     
     #Visualize
-    hp.mollview(cmb_map, title="Simulated CMB Map", unit="K")
+    hp.mollview(cmb_map, title=f"CMB Map, Nside={nside}", unit="K")
 
     return cmb_map
 
@@ -146,7 +146,7 @@ def save_cmb_temperature_map(cmb_cls, nside, n_map, seed0, output_dir="./", file
     """
     #Generate CMB map using Healpy's synfast
     np.random.seed(seed0)
-    cmb_temp_map = hp.synfast(cmb_cls, nside=nside, new=True, pol=False)
+    cmb_temp_map = hp.synfast(cmb_cls, nside=nside, new=True, pol=False, sigma=None)
     
     if custom_Pk:
         output_file = f"{output_dir}{file_prefix}_feature_{n_map}.fits"
