@@ -36,7 +36,7 @@ cov_matx_dltt_mcmc = np.loadtxt(base_pathCV +'/dlstt_cov_matx(mcmc).csv', delimi
 
 #Function to generate the differences plot (feature - lcdm)
 def cmb_cls_plot(nside):   
-    seed0 = 314100 
+    seed0 = 314100
     fsize = 16 
     #Convert in map
     cmb_map_feature = generate_cmb_temperature_map(cl_tt_feature, nside=nside, seed0=seed0)
@@ -57,13 +57,13 @@ def cmb_cls_plot(nside):
     #Upper plot (Power Spectrum)
     frame1 = fig.add_axes((.1, .4, .8, .6))
     frame1.plot(ell[:lmax], Dls(ell[:lmax], cl_tt_map_lcdm)[:lmax], 
-                label='$\Lambda CDM_{maps}$', alpha=0.6, color='blue')
+                label='$\Lambda CDM_{maps}$', alpha=0.6, color='blue', linestyle='-', linewidth=1.8)
     frame1.plot(ell[:lmax], Dls(ell[:lmax], cl_tt_map_feature)[:lmax], 
-                label='$Feature_{maps}, A_{lin}=0.06$', alpha=0.8, color='orange', linestyle='--')
+                label='$Feature_{maps}, A_{lin}=0.06$', alpha=1, color='orange', linestyle='-', linewidth=0.8)
     #frame1.plot(ell, Power_spectra_normal[1], 
                 #label='$\Lambda CDM$', color='gray')
     frame1.set_xlabel(r'$\ell$', fontsize=fsize)
-    frame1.set_ylabel(r'$D_\ell^{TT_{map}}=C_\ell \, \ell(\ell+1)/2\pi$', fontsize=fsize)
+    frame1.set_ylabel(r'$D_\ell^{TT_{map}}=\ell(\ell+1) C_\ell/2\pi$', fontsize=fsize)
     frame1.set_xlim(-5, len(Power_spectra_feature[0]))
     frame1.tick_params(axis='x', labelsize=0.1)
     frame1.grid(True, which='both', linestyle='--', linewidth=0.5)
@@ -74,8 +74,8 @@ def cmb_cls_plot(nside):
     #diff2 = (Dls(ell[:lmax], cl_tt_map_lcdm) - Power_spectra_normal[1][:lmax])
     diff1 = np.array(Dls(ell[:lmax], cl_tt_map_feature)) - np.array(Dls(ell[:lmax], cl_tt_map_lcdm))
     #frame2.plot(ell[:lmax], diff2, color='blue', alpha=0.5)
-    frame2.plot(ell[:lmax], diff1, alpha=0.8, color='orange', linestyle='--')
-    frame2.axhline(y=0, alpha=0.6, color='blue')
+    frame2.plot(np.linspace(0, ell[:lmax], 1000), np.zeros(1000), alpha=0.3, color='blue', linestyle='-', linewidth=1.2)
+    frame2.plot(ell[:lmax], diff1, alpha=1, color='orange', linestyle='-', linewidth=0.8)
     frame2.set_xlabel(r'$\ell$', fontsize=fsize)
     frame2.set_ylabel(r'$(D_\ell^{TT_{\Lambda CDM}} - D_\ell^{TT_{feature}})$', fontsize=fsize)
     frame2.tick_params(axis='x', labelsize=10)
