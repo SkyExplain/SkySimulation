@@ -61,9 +61,9 @@ cov_matx_dlee_mcmc = np.loadtxt(base_pathCV +'/dlsee_cov_matx(mcmc).csv', delimi
 ######################################################################################
 #                           Generate the power spectra
 ######################################################################################
-from CMBFeatureNet import PK
-from CMBFeatureNet import generate_camb_power_spectra
-from CMBFeatureNet import save_power_spectrum
+from SkySimulation import PK
+from SkySimulation import generate_camb_power_spectra
+from SkySimulation import save_power_spectrum
 
 #-------------------------------------------------------------------------------------
 #                        ΛCDM case (standard primordial power spectrum)
@@ -79,7 +79,7 @@ for omega_cdm in omega_cdms:
                         As=2.1e-9, ns=0.9649, halofit_version='mead', lmax=2507, custom_PK=False)
 
         output_spct_lcdm = "./simulated_data/simulated_ang_power_spectra/"
-        from CMBFeatureNet import add_noise_spectrum
+        from SkySimulation import add_noise_spectrum
         dlstt_noisy_lcdm = add_noise_spectrum(Power_spectra.tt, cov_matx_dltt_mcmc, seed0)
         dlste_noisy_lcdm = add_noise_spectrum(Power_spectra.te, cov_matx_dlte_mcmc, seed0)
         dlsee_noisy_lcdm = add_noise_spectrum(Power_spectra.ee, cov_matx_dlee_mcmc, seed0)
@@ -97,7 +97,7 @@ for omega_cdm in omega_cdms:
 
         output_lcdm = "./simulated_maps/"
         #Generate and save the temperature map
-        from CMBFeatureNet import save_cmb_temperature_map
+        from SkySimulation import save_cmb_temperature_map
         save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_lcdm, seed0=seed0, output_dir=output_lcdm, custom_Pk=False)
 
         #The polarization maps
