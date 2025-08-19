@@ -8,10 +8,10 @@ setup(
     description="A Python package for CMB data simulation.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/IndiraOcampo/CMBFeatureNet",
+    url="https://github.com/IndiraOcampo/SkySimulation",
     packages=find_packages(),
     install_requires=[
-        "numpy", "scipy", "matplotlib",  "camb", "healpy" #Dependencies
+        "numpy", "scipy", "matplotlib", "camb", "healpy", #Dependencies
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
