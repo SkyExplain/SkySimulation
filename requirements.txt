@@ -1,9 +1,8 @@
 numpy
 scipy
 matplotlib
-camb
-mathsys
+os
 healpy
 astropy
-keras
-pandas
+tensorflow
+sklearn
