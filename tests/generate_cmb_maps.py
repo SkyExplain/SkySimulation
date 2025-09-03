@@ -65,6 +65,7 @@ from SkySimulation import PK
 from SkySimulation import generate_camb_power_spectra
 from SkySimulation import add_noise_spectrum
 from SkySimulation import save_power_spectrum
+from SkySimulation import save_cmb_temperature_map
 
 # #-------------------------------------------------------------------------------------
 # #                        ΛCDM case (standard primordial power spectrum)
@@ -96,7 +97,7 @@ from SkySimulation import save_power_spectrum
 #         cl_eb = np.zeros_like(cl_ee) 
 #         cl_tb = np.zeros_like(cl_ee) 
 
-#         output_lcdm = "./simulated_maps/A_1/"
+#         output_lcdm = "./simulated_data/simulated_maps/A_em2"
 #         #Generate and save the temperature map
 #         from SkySimulation import save_cmb_temperature_map
 #         save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_lcdm, seed0=seed0, output_dir=output_lcdm, custom_Pk=False)
@@ -112,7 +113,7 @@ from SkySimulation import save_power_spectrum
 freq = 1000 #Frequency
 ks = np.linspace(0.02,1,1000) #wavenumber
 omega_cdms = np.linspace(0.1, 0.15, 15)
-A_lins = np.linspace(1, 6, 15)
+A_lins = np.linspace(0.01, 0.06, 15)
 
 flag_feature = 0
 for omega_cdm in omega_cdms:
@@ -134,7 +135,7 @@ for omega_cdm in omega_cdms:
         cl_bb = np.zeros_like(cl_ee)  #BB (set to zero if not considering B-modes)
         cl_te = Cls(round_ls_Pl_TE,dlste_noisy_feature)  #TE
 
-        output_feature = "./simulated_maps/A_1/"
+        output_feature = "./simulated_data/simulated_maps/A_em2/"
         #Generate and save the temperature map
         save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_feature, seed0=seed0, output_dir=output_feature, custom_Pk=True)
 
