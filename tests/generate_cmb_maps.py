@@ -10,7 +10,7 @@ from camb import model, initialpower
 print('Using CAMB %s'%(camb.__version__))
 
 #Set the path to the data directory
-data_directory = "/cosmodata/iocampo/SkySimulation/data/"
+data_directory = "/mnt/lustre/scratch/nlsas/home/csic/eoy/ioj/SkySimulation/data/"
 os.chdir(data_directory)
 print("Current working directory:", os.getcwd())
 
@@ -63,6 +63,7 @@ cov_matx_dlee_mcmc = np.loadtxt(base_pathCV +'/dlsee_cov_matx(mcmc).csv', delimi
 ######################################################################################
 from SkySimulation import PK
 from SkySimulation import generate_camb_power_spectra
+from SkySimulation import add_noise_spectrum
 from SkySimulation import save_power_spectrum
 
 # #-------------------------------------------------------------------------------------
