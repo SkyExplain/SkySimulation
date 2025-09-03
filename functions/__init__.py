@@ -15,7 +15,6 @@ __all__ = [
     "generate_camb_power_spectra",
     "add_noise_spectrum",
     "save_power_spectrum",
-    "simulate_and_store_cmb_data",
     "generate_cmb_temperature_map",
     "save_cmb_temperature_map",
     "PK",
