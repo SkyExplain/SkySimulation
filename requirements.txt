@@ -6,3 +6,4 @@ healpy
 astropy
 tensorflow
 sklearn
+camb
