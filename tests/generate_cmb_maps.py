@@ -85,9 +85,9 @@ for omega_cdm in omega_cdms:
         dlstt_noisy_lcdm = add_noise_spectrum(Power_spectra.tt, cov_matx_dltt_mcmc, seed0)
         dlste_noisy_lcdm = add_noise_spectrum(Power_spectra.te, cov_matx_dlte_mcmc, seed0)
         dlsee_noisy_lcdm = add_noise_spectrum(Power_spectra.ee, cov_matx_dlee_mcmc, seed0)
-        #save_power_spectrum(f"{output_spct_lcdm}dlstt_lcdm_{flag_lcdm}.csv", round_ls_Pl_TT, dlstt_noisy_lcdm)
-        #save_power_spectrum(f"{output_spct_lcdm}dlste_lcdm_{flag_lcdm}.csv", round_ls_Pl_TE, dlste_noisy_lcdm)
-        #save_power_spectrum(f"{output_spct_lcdm}dlsee_lcdm_{flag_lcdm}.csv", round_ls_Pl_EE, dlsee_noisy_lcdm)
+        save_power_spectrum(f"{output_spct_lcdm}dlstt_lcdm_{flag_lcdm}.csv", round_ls_Pl_TT, dlstt_noisy_lcdm)
+        # save_power_spectrum(f"{output_spct_lcdm}dlste_lcdm_{flag_lcdm}.csv", round_ls_Pl_TE, dlste_noisy_lcdm)
+        # save_power_spectrum(f"{output_spct_lcdm}dlsee_lcdm_{flag_lcdm}.csv", round_ls_Pl_EE, dlsee_noisy_lcdm)
 
         #Convert Dls to Cls
         cl_tt = Cls(round_ls_Pl_TT,dlstt_noisy_lcdm)  #TT
@@ -97,7 +97,7 @@ for omega_cdm in omega_cdms:
         cl_eb = np.zeros_like(cl_ee) 
         cl_tb = np.zeros_like(cl_ee) 
 
-        output_lcdm = "./simulated_data/simulated_maps/A_em2"
+        output_lcdm = "./simulated_data/simulated_maps/"
         #Generate and save the temperature map
         from SkySimulation import save_cmb_temperature_map
         save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_lcdm, seed0=seed0, output_dir=output_lcdm, custom_Pk=False)
@@ -135,8 +135,8 @@ for omega_cdm in omega_cdms:
         cl_bb = np.zeros_like(cl_ee)  #BB (set to zero if not considering B-modes)
         cl_te = Cls(round_ls_Pl_TE,dlste_noisy_feature)  #TE
 
-        output_feature = "./simulated_data/simulated_maps/A_em2/"
-        #Generate and save the temperature map
+        output_feature = "./simulated_data/simulated_maps/"
+        #Generate and save the temperature map, saves the "feature" label by default
         save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_feature, seed0=seed0, output_dir=output_feature, custom_Pk=True)
 
         #The polarization maps
