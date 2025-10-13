@@ -8,7 +8,7 @@ import healpy as hp
 from matplotlib import pyplot as plt
 
 seed0 = 314100
-data_directory = "/cosmodata/iocampo/SkySimulation/data/"
+data_directory = "/mnt/lustre/scratch/nlsas/home/csic/eoy/ioj/SkySimulation/data/"
 os.chdir(data_directory)
 print("Current working directory:", os.getcwd())
 
@@ -37,7 +37,7 @@ cov_matx_dltt_mcmc = np.loadtxt(base_pathCV +'/dlstt_cov_matx(mcmc).csv', delimi
 #Function to generate the differences plot (feature - lcdm)
 def cmb_cls_plot(nside):   
     seed0 = 314100
-    fsize = 16 
+    fsize = 20
     #Convert in map
     cmb_map_feature = generate_cmb_temperature_map(cl_tt_feature, nside=nside, seed0=seed0)
     cmb_map_lcdm = generate_cmb_temperature_map(cl_tt_lcdm, nside=nside, seed0=seed0)
@@ -63,9 +63,12 @@ def cmb_cls_plot(nside):
     #frame1.plot(ell, Power_spectra_normal[1], 
                 #label='$\Lambda CDM$', color='gray')
     frame1.set_xlabel(r'$\ell$', fontsize=fsize)
-    frame1.set_ylabel(r'$D_\ell^{TT_{map}}=\ell(\ell+1) C_\ell/2\pi$', fontsize=fsize)
+    frame1.set_ylabel(r'$D_\ell^{TT_{map}}$', fontsize=19)
+    frame1.yaxis.set_label_coords(-0.095, 0.6)
     frame1.set_xlim(-5, len(Power_spectra_feature[0]))
+    frame1.set_ylim(0.1, max(Dls(ell[:lmax], cl_tt_map_feature)[:lmax]))
     frame1.tick_params(axis='x', labelsize=0.1)
+    frame1.tick_params(axis='y', labelsize=18)
     frame1.grid(True, which='both', linestyle='--', linewidth=0.5)
     frame1.legend(fontsize=fsize)
     
@@ -76,9 +79,10 @@ def cmb_cls_plot(nside):
     #frame2.plot(ell[:lmax], diff2, color='blue', alpha=0.5)
     frame2.plot(np.linspace(0, ell[:lmax], 1000), np.zeros(1000), alpha=0.3, color='blue', linestyle='-', linewidth=1.2)
     frame2.plot(ell[:lmax], diff1, alpha=1, color='orange', linestyle='-', linewidth=0.8)
-    frame2.set_xlabel(r'$\ell$', fontsize=fsize)
-    frame2.set_ylabel(r'$(D_\ell^{TT_{\Lambda CDM}} - D_\ell^{TT_{feature}})$', fontsize=fsize)
-    frame2.tick_params(axis='x', labelsize=10)
+    frame2.set_xlabel(r'$\ell$', fontsize=22)
+    frame2.set_ylabel(r'$(D_\ell^{TT_{\Lambda CDM}} - D_\ell^{TT_{feat}})$', fontsize=19)
+    frame2.tick_params(axis='x', labelsize=18)
+    frame2.tick_params(axis='y', labelsize=18)
     frame2.grid(True, which='both', linestyle='--', linewidth=0.5)
 
     return plt
@@ -90,7 +94,13 @@ from SkySimulation import generate_cmb_temperature_map
 def cmb_map_plot_feature(nside):
     np.random.seed(seed0)
     cmb_map_feature = generate_cmb_temperature_map(cl_tt_feature, nside=nside, seed0=seed0)
-    plt.savefig(f"/cosmodata/iocampo/SkySimulation/plots/cmb_map_{nside}.pdf", format='pdf', bbox_inches='tight')
+    ax = plt.gca()
+    ax.set_title(fr"$N_\mathrm{{side}} = {nside}$", fontsize=20)
+    fig = plt.gcf()
+    cax = fig.axes[-1]           #colorbar axis
+    cax.tick_params(labelsize=20)
+    cax.yaxis.label.set_size(20)
+    plt.savefig(f"/mnt/lustre/scratch/nlsas/home/csic/eoy/ioj/SkySimulation/plots/cmb_map_{nside}.pdf", format='pdf', bbox_inches='tight')
     plt.close()
     plt.clf()
 
@@ -121,6 +131,6 @@ for nside in nside_list:
     from SkySimulation import read_map
     plt_cmb = cmb_map_plot_feature(nside)
     plt_obj = cmb_cls_plot(nside)
-    plot_path = os.path.join('/cosmodata/iocampo/SkySimulation/plots/', f'feature_lcdm_nside_{nside}.png')
-    plt_obj.savefig(plot_path)
+    plot_path = os.path.join('/mnt/lustre/scratch/nlsas/home/csic/eoy/ioj/SkySimulation/plots/', f'feature_lcdm_nside_{nside}.png')
+    plt_obj.savefig(plot_path, bbox_inches='tight')
     plt_obj.close()
