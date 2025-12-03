@@ -70,8 +70,8 @@ from SkySimulation import save_cmb_temperature_map
 # #-------------------------------------------------------------------------------------
 # #                        ΛCDM case (standard primordial power spectrum)
 # #-------------------------------------------------------------------------------------
-omega_cdms = np.linspace(0.1, 0.15, 15)   #Planck: omega_cdm = 0.12011
-omega_bs = np.linspace(0.021, 0.023, 15)  #Planck: omega_b = 0.049
+omega_cdms = np.linspace(0.1, 0.15, 3)   #Planck: omega_cdm = 0.12011, #change for 15 elements
+omega_bs = np.linspace(0.021, 0.023, 3)  #Planck: omega_b = 0.049 #change for 15 elements
 
 flag_lcdm = 0
 
@@ -80,14 +80,14 @@ for omega_cdm in omega_cdms:
         Power_spectra = generate_camb_power_spectra(67.4, omega_b, omega_cdm, 0.06, 0, tau=0.0544,
                         As=2.1e-9, ns=0.9649, halofit_version='mead', lmax=2507, custom_PK=False)
 
-        output_spct_lcdm = "./simulated_data/simulated_ang_power_spectra/"
+        output_spct_lcdm = "./simulated_data/simulated_ang_power_spectra/polarization/"
         from SkySimulation import add_noise_spectrum
         dlstt_noisy_lcdm = add_noise_spectrum(Power_spectra.tt, cov_matx_dltt_mcmc, seed0)
         dlste_noisy_lcdm = add_noise_spectrum(Power_spectra.te, cov_matx_dlte_mcmc, seed0)
         dlsee_noisy_lcdm = add_noise_spectrum(Power_spectra.ee, cov_matx_dlee_mcmc, seed0)
         save_power_spectrum(f"{output_spct_lcdm}dlstt_lcdm_{flag_lcdm}.csv", round_ls_Pl_TT, dlstt_noisy_lcdm)
-        # save_power_spectrum(f"{output_spct_lcdm}dlste_lcdm_{flag_lcdm}.csv", round_ls_Pl_TE, dlste_noisy_lcdm)
-        # save_power_spectrum(f"{output_spct_lcdm}dlsee_lcdm_{flag_lcdm}.csv", round_ls_Pl_EE, dlsee_noisy_lcdm)
+        save_power_spectrum(f"{output_spct_lcdm}dlste_lcdm_{flag_lcdm}.csv", round_ls_Pl_TE, dlste_noisy_lcdm)
+        save_power_spectrum(f"{output_spct_lcdm}dlsee_lcdm_{flag_lcdm}.csv", round_ls_Pl_EE, dlsee_noisy_lcdm)
 
         #Convert Dls to Cls
         cl_tt = Cls(round_ls_Pl_TT,dlstt_noisy_lcdm)  #TT
@@ -97,23 +97,23 @@ for omega_cdm in omega_cdms:
         cl_eb = np.zeros_like(cl_ee) 
         cl_tb = np.zeros_like(cl_ee) 
 
-        output_lcdm = "./simulated_data/simulated_maps/"
+        output_lcdm = "./simulated_data/simulated_maps/polarization/"
         #Generate and save the temperature map
         from SkySimulation import save_cmb_temperature_map
-        save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_lcdm, seed0=seed0, output_dir=output_lcdm, custom_Pk=False)
+        #save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_lcdm, seed0=seed0, output_dir=output_lcdm, custom_Pk=False)
 
         #The polarization maps
-        #from CMBFeatureNet import save_cmb_polarization_maps
-        #save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside=nside, n_map=flag_lcdm, output_dir=output_lcdm, custom_smooth=False, custom_Pk=False)
+        from SkySimulation import save_cmb_polarization_maps
+        save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, seed0=seed0, nside=nside, n_map=flag_lcdm, output_dir=output_lcdm, custom_smooth=True, fwhm_arcmin=5.0, custom_Pk=False)
         flag_lcdm += 1
 
 #-------------------------------------------------------------------------------------
 #                                Non-standar feature case
 #-------------------------------------------------------------------------------------
 freq = 1000 #Frequency
-ks = np.linspace(0.02,1,1000) #wavenumber
-omega_cdms = np.linspace(0.1, 0.15, 15)
-A_lins = np.linspace(0.01, 0.06, 15)
+ks = np.linspace(0.02,1,freq) #wavenumber
+omega_cdms = np.linspace(0.1, 0.15, 3) #change for 15 elements
+A_lins = np.linspace(0.01, 0.06, 3) ##change for 15 elements
 
 flag_feature = 0
 for omega_cdm in omega_cdms:
@@ -121,13 +121,13 @@ for omega_cdm in omega_cdms:
         Power_spectra = generate_camb_power_spectra(67.4, 0.02237, omega_cdm, 0.06, 0, tau=0.0544,  
                             As=2.1e-9, ns=0.9649, halofit_version='mead', lmax=2507, custom_PK=True, amp=A_lin, freq=freq, wid=0.04, centre=0.06, phase=0)
         
-        output_spct_f = "./simulated_data/simulated_ang_power_spectra/"
+        output_spct_f = "./simulated_data/simulated_ang_power_spectra/polarization/"
         dlstt_noisy_feature = add_noise_spectrum(Power_spectra.tt, cov_matx_dltt_mcmc, seed0)
         dlste_noisy_feature = add_noise_spectrum(Power_spectra.te, cov_matx_dlte_mcmc, seed0)
         dlsee_noisy_feature = add_noise_spectrum(Power_spectra.ee, cov_matx_dlee_mcmc, seed0)
         save_power_spectrum(f"{output_spct_f}dlstt_feature_{flag_feature}.csv", round_ls_Pl_TT, dlstt_noisy_feature)
-        #save_power_spectrum(f"{output_spct_f}dlste_feature_{flag_feature}.csv", round_ls_Pl_TE, dlste_noisy_feature)
-        #save_power_spectrum(f"{output_spct_f}dlsee_feature_{flag_feature}.csv", round_ls_Pl_EE, dlsee_noisy_feature)
+        save_power_spectrum(f"{output_spct_f}dlste_feature_{flag_feature}.csv", round_ls_Pl_TE, dlste_noisy_feature)
+        save_power_spectrum(f"{output_spct_f}dlsee_feature_{flag_feature}.csv", round_ls_Pl_EE, dlsee_noisy_feature)
 
         #Convert Dls to Cls
         cl_tt = Cls(round_ls_Pl_TT,dlstt_noisy_feature)  #TT
@@ -135,12 +135,12 @@ for omega_cdm in omega_cdms:
         cl_bb = np.zeros_like(cl_ee)  #BB (set to zero if not considering B-modes)
         cl_te = Cls(round_ls_Pl_TE,dlste_noisy_feature)  #TE
 
-        output_feature = "./simulated_data/simulated_maps/"
+        output_feature = "./simulated_data/simulated_maps/polarization/"
         #Generate and save the temperature map, saves the "feature" label by default
-        save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_feature, seed0=seed0, output_dir=output_feature, custom_Pk=True)
+        #save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_feature, seed0=seed0, output_dir=output_feature, custom_Pk=True)
 
         #The polarization maps
-        #save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside=nside, n_map=flag_feature, output_dir=output_feature, custom_smooth=False, custom_Pk=True)
+        save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, nside=nside, n_map=flag_feature, seed0=seed0, output_dir=output_feature, custom_smooth=True, fwhm_arcmin=5.0, custom_Pk=True)
         flag_feature += 1
 
 end = time.time()
