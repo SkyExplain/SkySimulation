@@ -1,3 +1,8 @@
+# src/skysimulation/__init__.py
+
+#1. version
+__version__ = "0.1.0"
+
 """
 SkySimulation public API.
 """
