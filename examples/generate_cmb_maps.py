@@ -61,11 +61,11 @@ cov_matx_dlee_mcmc = np.loadtxt(base_pathCV +'/dlsee_cov_matx(mcmc).csv', delimi
 ######################################################################################
 #                           Generate the power spectra
 ######################################################################################
-from SkySimulation import PK
-from SkySimulation import generate_camb_power_spectra
-from SkySimulation import add_noise_spectrum
-from SkySimulation import save_power_spectrum
-from SkySimulation import save_cmb_temperature_map
+from skysimulation import PK
+from skysimulation import generate_camb_power_spectra
+from skysimulation import add_noise_spectrum
+from skysimulation import save_power_spectrum
+from skysimulation import save_cmb_temperature_map
 
 # #-------------------------------------------------------------------------------------
 # #                        ΛCDM case (standard primordial power spectrum)
@@ -81,7 +81,7 @@ for omega_cdm in omega_cdms:
                         As=2.1e-9, ns=0.9649, halofit_version='mead', lmax=2507, custom_PK=False)
 
         output_spct_lcdm = "/mnt/netapp1/Store_CSIC/home/csic/eoy/ioj/SkySimulation/data/simulated_data/simulated_ang_power_spectra/polarization/"
-        from SkySimulation import add_noise_spectrum
+        from skysimulation import add_noise_spectrum
         dlstt_noisy_lcdm = add_noise_spectrum(Power_spectra.tt, cov_matx_dltt_mcmc, seed0)
         dlste_noisy_lcdm = add_noise_spectrum(Power_spectra.te, cov_matx_dlte_mcmc, seed0)
         dlsee_noisy_lcdm = add_noise_spectrum(Power_spectra.ee, cov_matx_dlee_mcmc, seed0)
@@ -99,11 +99,11 @@ for omega_cdm in omega_cdms:
 
         output_lcdm = "/mnt/netapp1/Store_CSIC/home/csic/eoy/ioj/SkySimulation/data/simulated_data/simulated_maps/polarization/"
         #Generate and save the temperature map
-        from SkySimulation import save_cmb_temperature_map
+        from skysimulation import save_cmb_temperature_map
         #save_cmb_temperature_map(cl_tt, nside=nside, n_map=flag_lcdm, seed0=seed0, output_dir=output_lcdm, custom_Pk=False)
 
         #The polarization maps
-        from SkySimulation import save_cmb_polarization_maps
+        from skysimulation import save_cmb_polarization_maps
         save_cmb_polarization_maps(cl_tt, cl_ee, cl_bb, cl_te, cl_eb, cl_tb, seed0=seed0, nside=nside, n_map=flag_lcdm, output_dir=output_lcdm, custom_smooth=True, fwhm_arcmin=5.0, custom_Pk=False)
         flag_lcdm += 1
 
