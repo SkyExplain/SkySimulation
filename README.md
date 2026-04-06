@@ -17,7 +17,7 @@
 
 The package uses [CAMB](https://camb.info/) to compute angular power spectra, applies official **Planck galactic masks** and **Planck-derived noise uncertainties**, and estimates full noise covariance matrices via MCMC sampling.
 
-This code was developed as part of the analysis pipeline for [*Your Paper Title Here*](https://arxiv.org/abs/XXXX.XXXXX).
+This code was developed as part of the analysis pipeline for [*Explaining Neural Networks on the Sky: Machine Learning Interpretability for CMB Maps*](https://arxiv.org/abs/XXXX.XXXXX).
 
 ---
 
