@@ -39,7 +39,7 @@ $$\mathcal{P}(k) = \mathcal{P}_{\rm \Lambda CDM}(k) \left[1 + A_{\rm lin} \sin\l
 
 ### Requirements
 
-- Python ≥ 3.8
+- Python ≥ 3.9
 - [CAMB](https://camb.info/)
 - [healpy](https://healpy.readthedocs.io/)
 - numpy, scipy, matplotlib
@@ -78,7 +78,7 @@ If you use **SkySimulation** in your research, please cite:
 
 ```bibtex
 @article{YourName2026,
-  author        = {Ocampo, Indira and Guadalupe Cañas-Herrera},
+  author        = {Indira Ocampo and Guadalupe Cañas-Herrera},
   title         = {Explaining Neural Networks on the Sky: Machine Learning Interpretability for CMB Maps},
   journal       = {JCAP},
   year          = {2026},
@@ -91,4 +91,4 @@ If you use **SkySimulation** in your research, please cite:
 
 ## 📬 Contact
 
-For questions or issues, please open a [GitHub Issue](https://github.com/skyexplain/SkySimulation/issues) or contact [your.email@institution.edu](mailto:your.email@institution.edu).
+For questions or issues, please open a [GitHub Issue](https://github.com/skyexplain/SkySimulation/issues) or contact [indira.ocampo@csic.es](mailto:indira.ocampo@csic.es).
