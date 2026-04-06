@@ -13,7 +13,7 @@ def save_power_spectrum(file_path, ell, noisy_spectrum):
         writer.writerow(ell)
         writer.writerow(noisy_spectrum)
 
-def read_map(file_path):
+def read_map(file_path: str) -> np.ndarray:
     """
     Reads a Healpy map from a FITS file and flattens the data.
     """

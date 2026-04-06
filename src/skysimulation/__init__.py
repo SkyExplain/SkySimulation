@@ -1,3 +1,8 @@
+# src/skysimulation/__init__.py
+
+#1. version
+__version__ = "0.1.0"
+
 """
 SkySimulation public API.
 """
@@ -10,6 +15,8 @@ from .maps import (
     generate_cmb_temperature_map,
     save_cmb_temperature_map,
     generate_cmb_polarization_maps,
+    apply_galactic_mask,
+    new_resolution_mask,
     save_cmb_polarization_maps,
     deconvolve_gaussian_beam,
 )
@@ -24,6 +31,8 @@ __all__ = [
     "generate_cmb_temperature_map",
     "save_cmb_temperature_map",
     "generate_cmb_polarization_maps",
+    "apply_galactic_mask",
+    "new_resolution_mask",
     "save_cmb_polarization_maps",
     "deconvolve_gaussian_beam",
 ]

@@ -7,7 +7,7 @@ name = "skysimulation"
 version = "0.1.0"
 description = "SkySimulation: tools for CMB spectra and map simulation."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = [
   "numpy",
   "scipy",
