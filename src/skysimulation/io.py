@@ -18,10 +18,5 @@ def read_map(file_path: str) -> np.ndarray:
     Reads a Healpy map from a FITS file and flattens the data.
     """
     with fits.open(file_path) as hdul:
-        #If you want the verbose FITS info, uncomment:
-        #hdul.info()
-        if len(hdul) > 1 and hasattr(hdul[1], "columns"):
-             print(hdul[1].columns)
-        data = np.concatenate(hdul[1].data["T"])
-        
-    return data
+        # Keeping your behavior, but without printing in library code
+        return np.concatenate(hdul[1].data["T"])
