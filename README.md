@@ -28,7 +28,7 @@ This code was developed as part of the analysis pipeline for [*Explaining Neural
 
 $$P_{\mathcal{R}}(k)=P_{\mathcal{R}, 0}(k)\left[1+A_{\rm lin} \sin \left(\omega_{\rm lin} \frac{k}{k_{\star}}+\phi\right)\right]$$
 
-- 🎛️ **Tunable feature parameters** — Freely adjust the **amplitude** ($A_{\rm lin}$) and **log-frequency** ($\omega_{\rm lin}$) of the primordial oscillatory feature. While also being able to explore other cosmological parameters ($\omega_{cdm}, \omega_b, A_s, n_s\$).
+- 🎛️ **Tunable feature parameters** — Freely adjust the **amplitude** ($A_{\rm lin}$) and **log-frequency** ($\omega_{\rm lin}$) of the primordial oscillatory feature. While also being able to explore other cosmological parameters ($\omega_{\rm cdm}, \omega_{\rm b}, A_{\rm s}, n_{\rm s}\$).
 - 🗺️ **Planck galactic mask** — Applies the official Planck galactic mask to exclude contaminated sky regions, reproducing realistic sky coverage
 - 🛰️ **Planck-like noise** — Adds realistic noise realisations calibrated on Planck instrument specifications
 - 📊 **Noise covariance matrix** — Constructs the full pixel-pixel noise covariance matrix $C_{ij}$ by sampling Planck-derived asymmetric uncertainties via MCMC
