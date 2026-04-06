@@ -1,2 +1,96 @@
-# SkySimulation
-This repo hosts the data simulation of our CMB (temperature and polarization) maps (for performing model selection with Machine Learning with SkyNeuralNets).
+<div align="center">
+
+# 🌌 SkySimulation
+
+**A Python toolkit for simulating CMB temperature and polarisation maps with standard and non-standard primordial power spectra**
+
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org/)
+[![CAMB](https://img.shields.io/badge/Powered%20by-CAMB-orange)](https://camb.info/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![arXiv](https://img.shields.io/badge/arXiv-XXXX.XXXXX-red)](https://arxiv.org/abs/XXXX.XXXXX)
+
+</div>
+
+---
+
+## 📖 Overview
+
+**SkySimulation** is a modular Python package for generating realistic CMB sky maps in temperature and polarisation (**T, Q, U**) for use in cosmological analyses. It supports both standard **ΛCDM** cosmologies and models with **oscillatory features in the primordial power spectrum**, enabling systematic studies of their imprints on CMB observables.
+
+The package uses [CAMB](https://camb.info/) to compute angular power spectra, applies official **Planck galactic masks** and **Planck-derived noise uncertainties**, and estimates full noise covariance matrices via MCMC sampling.
+
+This code was developed as part of the analysis pipeline for [*Your Paper Title Here*](https://arxiv.org/abs/XXXX.XXXXX).
+
+---
+
+## ✨ Features
+
+- 🔭 **Full-sky CMB map simulation** — Generate T, Q, and U maps from any input power spectrum using HEALPix pixelisation via CAMB
+- 🌀 **ΛCDM & beyond** — Supports standard cosmological parameters as well as a non-standard oscillating primordial power spectrum of the form:
+
+$$\mathcal{P}(k) = \mathcal{P}_{\rm \Lambda CDM}(k) \left[1 + A_{\rm osc} \sin\left(\omega \ln k + \phi\right)\right]$$
+
+- 🎛️ **Tunable feature parameters** — Freely adjust the **amplitude** ($A_{\rm osc}$) and **log-frequency** ($\omega$) of the primordial oscillatory feature. While also being able to explore other cosmological parameters ($\omega_{cdm}, \omega_b, A_s, n_s\$).
+- 🗺️ **Planck galactic mask** — Applies the official Planck galactic mask to exclude contaminated sky regions, reproducing realistic sky coverage
+- 🛰️ **Planck-like noise** — Adds realistic noise realisations calibrated on Planck instrument specifications
+- 📊 **Noise covariance matrix** — Constructs the full pixel-pixel noise covariance matrix $C_{ij}$ by sampling Planck-derived asymmetric uncertainties via MCMC
+
+---
+
+## 📦 Installation
+
+### Requirements
+
+- Python ≥ 3.8
+- [CAMB](https://camb.info/)
+- [healpy](https://healpy.readthedocs.io/)
+- numpy, scipy, matplotlib
+- emcee (for covariance MCMC)
+
+All dependencies are listed in `requirements.txt`.
+
+### Install
+
+```bash
+git clone https://github.com/skyexplain/SkySimulation.git
+cd SkySimulation
+pip install -e .
+```
+
+---
+
+## 🚀 Quick Start
+
+See the `examples/` directory for ready-to-run scripts.
+Also see **[Sandbox](https://github.com/skyexplain/Sandbox)** for Tutorials and more examples.
+
+---
+
+## 🔗 External Data
+
+This package relies on publicly available Planck data products:
+- **Galactic mask**: Planck 2018 confidence masks ([Planck Legacy Archive](https://pla.esac.esa.int/))
+- **Noise uncertainties**: Planck 2018 noise characterisation, used to build the asymmetric error distributions from ([Planck Legacy Archive](https://pla.esac.esa.int/)), sampled in the $C_{ij}$ estimation
+
+---
+
+## 📄 Citation
+
+If you use **SkySimulation** in your research, please cite:
+
+```bibtex
+@article{YourName2026,
+  author        = {Ocampo, Indira and Guadalupe Cañas-Herrera},
+  title         = {Explaining Neural Networks on the Sky: Machine Learning Interpretability for CMB Maps},
+  journal       = {JCAP},
+  year          = {2026},
+  eprint        = {XXXX.XXXXX},
+  archivePrefix = {arXiv}
+}
+```
+
+---
+
+## 📬 Contact
+
+For questions or issues, please open a [GitHub Issue](https://github.com/skyexplain/SkySimulation/issues) or contact [your.email@institution.edu](mailto:your.email@institution.edu).
