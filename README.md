@@ -64,6 +64,18 @@ Also see **[Sandbox](https://github.com/skyexplain/Sandbox)** for Tutorials and 
 
 ---
 
+## 🔗 Related Packages
+
+This repository is part of a three-package ecosystem:
+
+| Package | Description |
+|---|---|
+| [**SkySimulation**](https://github.com/skyexplain/SkySimulation) | CMB map simulation (T, Q, U) with ΛCDM and oscillatory features |
+| [**SkyNeuralNets**](https://github.com/skyexplain/SkyNeuralNets) | NN-based model selection on CMB maps *(this repo)* |
+| [**SkyInterpret**](https://github.com/skyexplain/SkyInterpret) | Interpretability analysis of the trained neural networks |
+
+---
+
 ## 🔗 External Data
 
 This package relies on publicly available Planck data products:
