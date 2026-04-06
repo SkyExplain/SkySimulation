@@ -1,10 +1,8 @@
-<div align="center">
-
 # 🌌 SkySimulation
 
 **A Python toolkit for simulating CMB temperature and polarisation maps with standard and non-standard primordial power spectra**
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python)](https://www.python.org/)
 [![CAMB](https://img.shields.io/badge/Powered%20by-CAMB-orange)](https://camb.info/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![arXiv](https://img.shields.io/badge/arXiv-XXXX.XXXXX-red)](https://arxiv.org/abs/XXXX.XXXXX)
@@ -28,9 +26,9 @@ This code was developed as part of the analysis pipeline for [*Your Paper Title 
 - 🔭 **Full-sky CMB map simulation** — Generate T, Q, and U maps from any input power spectrum using HEALPix pixelisation via CAMB
 - 🌀 **ΛCDM & beyond** — Supports standard cosmological parameters as well as a non-standard oscillating primordial power spectrum of the form:
 
-$$\mathcal{P}(k) = \mathcal{P}_{\rm \Lambda CDM}(k) \left[1 + A_{\rm osc} \sin\left(\omega \ln k + \phi\right)\right]$$
+$$\mathcal{P}(k) = \mathcal{P}_{\rm \Lambda CDM}(k) \left[1 + A_{\rm lin} \sin\left(\omega_{\rm lin} \ln k + \phi\right)\right]$$
 
-- 🎛️ **Tunable feature parameters** — Freely adjust the **amplitude** ($A_{\rm osc}$) and **log-frequency** ($\omega$) of the primordial oscillatory feature. While also being able to explore other cosmological parameters ($\omega_{cdm}, \omega_b, A_s, n_s\$).
+- 🎛️ **Tunable feature parameters** — Freely adjust the **amplitude** ($A_{\rm lin}$) and **log-frequency** ($\omega_{\rm lin}$) of the primordial oscillatory feature. While also being able to explore other cosmological parameters ($\omega_{cdm}, \omega_b, A_s, n_s\$).
 - 🗺️ **Planck galactic mask** — Applies the official Planck galactic mask to exclude contaminated sky regions, reproducing realistic sky coverage
 - 🛰️ **Planck-like noise** — Adds realistic noise realisations calibrated on Planck instrument specifications
 - 📊 **Noise covariance matrix** — Constructs the full pixel-pixel noise covariance matrix $C_{ij}$ by sampling Planck-derived asymmetric uncertainties via MCMC
