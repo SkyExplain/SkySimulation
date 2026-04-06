@@ -26,7 +26,7 @@ This code was developed as part of the analysis pipeline for [*Explaining Neural
 - 🔭 **Full-sky CMB map simulation** — Generate T, Q, and U maps from any input power spectrum using HEALPix pixelisation via CAMB
 - 🌀 **ΛCDM & beyond** — Supports standard cosmological parameters as well as a non-standard oscillating primordial power spectrum of the form:
 
-$$\mathcal{P}(k) = \mathcal{P}_{\rm \Lambda CDM}(k) \left[1 + A_{\rm lin} \sin\left(\omega_{\rm lin} \ln k + \phi\right)\right]$$
+$$P_{\mathcal{R}}(k)=P_{\mathcal{R}, 0}(k)\left[1+A_{\operatorname{lin}} \sin \left(\omega_{\operatorname{lin}} \frac{k}{k_{\star}}+\phi\right)]$$
 
 - 🎛️ **Tunable feature parameters** — Freely adjust the **amplitude** ($A_{\rm lin}$) and **log-frequency** ($\omega_{\rm lin}$) of the primordial oscillatory feature. While also being able to explore other cosmological parameters ($\omega_{cdm}, \omega_b, A_s, n_s\$).
 - 🗺️ **Planck galactic mask** — Applies the official Planck galactic mask to exclude contaminated sky regions, reproducing realistic sky coverage
