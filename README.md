@@ -5,7 +5,7 @@
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python)](https://www.python.org/)
 [![CAMB](https://img.shields.io/badge/Powered%20by-CAMB-orange)](https://camb.info/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13829665.svg)](https://doi.org/10.5281/zenodo.19445834)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19445834.svg)](https://doi.org/10.5281/zenodo.19445834)
 [![arXiv](https://img.shields.io/badge/arXiv-2604.05290-red)](https://arxiv.org/abs/2604.05290)
 
 </div>
