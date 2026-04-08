@@ -90,12 +90,11 @@ This package relies on publicly available Planck data products:
 If you use **SkySimulation** in your research, please cite:
 
 ```bibtex
-@article{Ocampo2026,
+@article{ocampo2026explaining,
   author        = {Indira Ocampo and Guadalupe Cañas-Herrera},
   title         = {Explaining Neural Networks on the Sky: Machine Learning Interpretability for CMB Maps},
-  journal       = {JCAP},
   year          = {2026},
-  eprint        = {XXXX.XXXXX},
+  eprint        = {2604.05290},
   archivePrefix = {arXiv}
 }
 ```
